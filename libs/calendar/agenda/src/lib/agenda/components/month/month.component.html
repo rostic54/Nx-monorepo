@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="month-header flex align-center between">
+    <button mat-button
+            color="primary"
+            class="btn"
+            (click)="previousMonth()"> < </button>
+    {{ activeMonth.monthName }}
+    <button mat-button
+            color="primary"
+            class="btn"
+            (click)="nextMonth()"> > </button>
+  </div>
+ <div class="header-row">
+
+ </div>
+  <div class="week-days">
+    <lib-week
+      [days]="days"
+      (gotChanged)="sendUpdateStore($event)"
+    ></lib-week>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+@import "variables";
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  .details-wrap {
+    width: 200px;
+    background-color: $main-background;
+    border-radius: 15px;
+    margin-left: 10px;
+  }
+
+  .back {
+    margin-bottom: 10px;
+  }
+}
+.viewport-wrap {
+  width: 600px;
+  min-width: 400px;
+
+  .viewport {
+    height: 500px;
+    overflow: scroll;
+    border: 1px solid black;
+
+    .order {
+      position: absolute;
+      font-weight: bold;
+      font-size: 25px;
+      border-right: 2px solid black;
+      height: 100%;
+      width: 80px;
+    }
+  }
+}
+
+
+.item {
+ position: relative;
+  cursor: pointer;
+  height: 150px;
+  border-bottom: 2px solid black;
+  opacity: .85;
+  &:nth-child(even) {
+    background: darkgray;
+  }
+
+  &:nth-child(odd) {
+    background: lightgray;
+  }
+  &:hover {
+    opacity: 1;
+  }
+
+  .list {
+    display: inline-block;
+    padding-left: 80px;
+    margin: 5px 10px;
+
+    .content {
+      display: inline-block;
+      cursor: grab;
+      margin: 5px 10px;
+      border: 1px solid black;
+      padding: 3px;
+      border-radius: 5px;
+    }
+  }
+}

@@ -1,0 +1,11 @@
+<div class="content-wrap">
+  <a [routerLink]="'../../edit'">Back to Edit</a>
+
+<h4>Create appointment for {{hourNumber.hours}}:00 hour</h4>
+  <lib-event-create-form
+    [specificHour]="hourNumber"
+    [date]="currentDate.date"
+    (submitFormValue)="createEvent($event)"
+  ></lib-event-create-form>
+</div>
+

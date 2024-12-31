@@ -1,0 +1,61 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./_variables";
+
+.main-container {
+  vertical-align: center;
+  height: 100vh;
+  .page-wrap {
+    max-width: 900px;
+    min-width: 500px;
+  }
+
+}
+
+.flex {
+  display: flex;
+  &.column {
+    flex-direction: column;
+  }
+  &.between {
+    justify-content: space-between;
+  }
+  &.center {
+    justify-content: center;
+  }
+  &.end {
+    justify-content: right;
+  }
+  &.align-center {
+    align-items: center;
+  }
+  &.align-end {
+    align-items: end;
+  }
+  &.align-stretch {
+    align-items: stretch;
+  }
+  .flex-item {
+    &.grow-1 {
+      flex-grow: 1;
+    }
+  }
+  .flex-wrap {
+    &.wrap {
+      flex-wrap: wrap;
+    }
+  }
+}
+.alert {
+  color: $alert;
+}
+
+.btn {
+  color: purple;
+}
+
+html, body {
+  height: 100%;
+  background-image: url("../../assets/images/img_1.png");
+  background-repeat: repeat;
+}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

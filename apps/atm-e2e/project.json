@@ -1,0 +1,10 @@
+{
+  "name": "atm-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/atm-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["atm"],
+  "// targets": "to see all targets run: nx show project atm-e2e --web",
+  "targets": {}
+}

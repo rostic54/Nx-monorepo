@@ -1,0 +1,69 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="container">
+
+    <thead>
+    <tr>
+        <th *ngFor="let day of week">
+            {{ day }}
+        </th>
+    </tr>
+    </thead>
+    <tbody cdkDropListGroup>
+    <tr *ngFor="let row of days | weekSeparator : 7; let i = index">
+        <td class="calendar-day"
+            *ngFor="let cell of row; let j = index"
+            [ngClass]="{
+        'weekend': j > 4,
+         'beyond': !cell.isCurrentMonth
+         }"
+            cdkDropList
+            cdkDropListSortingDisabled
+            (cdkDropListDropped)="drop($event)"
+            [cdkDropListData]="row[j].events"
+            (cdkDropListEntered)="entered(cell)"
+            (click)="dayClickHandler(i, j)"
+        >
+
+            <!--      <div [appShowInputField]="isSelectionModeActive()"-->
+            <!--           (missClicked)="$event ? dayClickHandler(i, j) : clearViewContainer() "-->
+            <div  class="day-content flex align-center center">
+                <strong>{{ cell.currentDate }}</strong>
+                <div class="events-dox">
+                    @for (ev of cell.events; track ev.id; let x = $index; let l = $count) {
+                        <lib-event-brief-info
+                                class="event-item"
+                                [ngStyle]="{'top': (x+1) * 15 + 'px', 'z-index': l - x }"
+                                (cdkDragStarted)="exited(cell)"
+                                cdkDrag
+                                [event]="ev"
+                        >
+                        </lib-event-brief-info>
+                    }
+                </div>
+                <mat-icon class="alert"
+                          *ngIf="cell.markedAsImportant">
+                    bookmark
+                </mat-icon>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</div>
+
+<ng-template #formTemplate>
+    <div (click)="$event.stopPropagation()" class="field-wrap">
+        <form [formGroup]="storedDayForm"
+
+              class="flex between column">
+            <mat-form-field class="filed-wrap">
+                <mat-label>Title</mat-label>
+                <input type="text"
+                       matInput
+                       formControlName="title"
+                       placeholder="Title of stored day">
+            </mat-form-field>
+            <button mat-button type="submit">Save date</button>
+        </form>
+    </div>
+</ng-template>

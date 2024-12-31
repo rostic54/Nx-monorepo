@@ -14,7 +14,38 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@angular-monorepo/agenda": ["libs/calendar/agenda/src/index.ts"],
+      "@angular-monorepo/constants": [
+        "libs/core/calendar/constants/src/index.ts"
+      ],
+      "@angular-monorepo/dashboard": ["libs/atm/dashboard/src/index.ts"],
+      "@angular-monorepo/day-details-calendar": [
+        "libs/calendar/day-details/src/index.ts"
+      ],
+      "@angular-monorepo/directives-calendar": [
+        "libs/directives/calendar/src/index.ts"
+      ],
+      "@angular-monorepo/enums-calendar": ["libs/core/calendar/src/index.ts"],
+      "@angular-monorepo/factories-calendar": [
+        "libs/factories/calendar/src/index.ts"
+      ],
+      "@angular-monorepo/models-calendar": [
+        "libs/models/calendar/src/index.ts"
+      ],
+      "@angular-monorepo/pipes-calendar": ["libs/pipes/calendar/src/index.ts"],
+      "@angular-monorepo/services-calendar": [
+        "libs/services/calendar/src/index.ts"
+      ],
+      "@angular-monorepo/types-calendar": ["libs/types/calendar/src/index.ts"],
+      "@angular-monorepo/ui": ["libs/shared/ui/src/index.ts"],
+      "@angular-monorepo/utils-calendar": ["libs/utils/calendar/src/index.ts"]
+    }
+  },
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true,
+    "strictTemplates": true,
+    "strictInputAccessModifiers": true
   },
   "exclude": ["node_modules", "tmp"]
 }

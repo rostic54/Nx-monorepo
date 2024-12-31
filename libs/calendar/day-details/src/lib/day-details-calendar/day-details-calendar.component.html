@@ -1,0 +1,35 @@
+<div class="page-wrap">
+    <button mat-raised-button color="primary" class="back" (click)="back()"> <- Back To Calendar</button>
+    <div class="content-wrap flex ">
+      <div class="viewport-wrap" cdkDropListGroup>
+        <cdk-virtual-scroll-viewport itemSize="10" class="viewport">
+        <div *cdkVirtualFor="let hour of hours; let i = index"
+               cdkDropList
+               [cdkDropListConnectedTo]="connectedTo"
+               (cdkDropListDropped)="drop($event, hour)"
+               [cdkDropListData]="hour.events"
+               (click)="openHourDetails(hour)"
+               (keydown.enter)="openHourDetails(hour)"
+               tabindex="{{i}}"
+               class="item">
+            <span class="order flex align-center center">{{ hour.timeNumber }}</span>
+            <div class="list">
+              <div class="content"
+                   (click)="setSelectedEventForEdit($event, event)"
+                   (keydown.enter)="setSelectedEventForEdit($event, event)"
+                   cdkDrag
+                   cdkDragHandle
+                   tabindex="{{j}}"
+                   *ngFor="let event of hour.events; let j = index; trackBy:identify">
+                {{ event.preciseTime }} - {{ event.content }}
+              </div>
+            </div>
+          </div>
+        </cdk-virtual-scroll-viewport>
+      </div>
+      <div class="details-wrap">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  

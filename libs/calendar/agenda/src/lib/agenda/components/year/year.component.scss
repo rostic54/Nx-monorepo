@@ -1,0 +1,17 @@
+:host {
+  position: relative;
+}
+.container {
+  border: 1px solid darkgray;
+  padding: 20px;
+  font-size: 25px;
+  font-weight: bold;
+
+  .btn {
+    flex-basis: 50px;
+    border: 1px solid lightgray;
+    padding: 10px;
+    margin: 5px;
+    text-align: center;
+  }
+}

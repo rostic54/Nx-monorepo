@@ -1,0 +1,16 @@
+<div class="cont-wrap">
+  <h3>Select an appointment to edit: </h3>
+
+  <lib-event-create-form
+    [eventDetails]="appointment"
+    [date]="appointment.currentDate"
+    [isDeletable]="data.permissionDelete"
+    (submitFormValue)="updateEvent($event)"
+    (deleteItem)="deleteEvent($event)"
+  >
+    <button mat-raised-button color="primary"
+            (click)="closeDialog(null)">
+      Cancel
+    </button>
+  </lib-event-create-form>
+</div>

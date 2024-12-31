@@ -1,0 +1,38 @@
+@import "_variables";
+
+:host {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .page-wrap {
+    position: relative;
+  }
+  .day-selector,
+  .event-creator {
+    position: absolute;
+    text-align: center;
+    background-color: #f8f8dd;
+    padding: 10px 10px 25px 10px;
+    border-radius: 10px 10px 0 0;
+    transition: top 0.5s, font-weight .5s;
+    cursor: pointer;
+    &.active {
+      top: -50px;
+      color: $success;
+      font-weight: bold;
+      transition: top 1s, font-weight 1s;
+    }
+  }
+  .day-selector {
+    top: -38px;
+    left: 30px;
+  }
+  .calendar-wrap {
+    position: relative;
+    z-index: 123;
+    overflow: hidden;
+    border-radius: 20px;
+    background-color: $main-background;
+  }
+}

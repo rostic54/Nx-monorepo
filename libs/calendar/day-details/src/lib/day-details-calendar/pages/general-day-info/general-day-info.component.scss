@@ -1,0 +1,12 @@
+.content-wrap {
+  padding: 10px;
+  text-align: center;
+  .tip {
+    color: gray;
+    font-size: 12px;
+  }
+  ul {
+    overflow: scroll;
+    height: 150px;
+  }
+}
