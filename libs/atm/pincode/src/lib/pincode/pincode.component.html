@@ -1,0 +1,47 @@
+<p-card [styleClass]="'card-wrap flex column center'">
+  <ng-template pTemplate="content">
+    <div class="field-row flex align-center center">
+      <span class="label space">Enter PIN code</span>
+      <div class="input-wrap" #pinCodeField>
+        <p-inputOtp
+          [ngModel]="pinCode.value"
+          (ngModelChange)="setPinCode($event)"
+          (onFocus)="onOtpFocus($event)"
+          (paste)="onPaste($event)"
+          [disabled]="pinCode.disabled"
+          [class]="'pin-field space'"
+          [integerOnly]="true"
+          [mask]="!isDecrypted"
+          [autofocus]="true"
+          #inputRef
+        ></p-inputOtp>
+      </div>
+      <div class="space flex flex-direcction-column">
+        <p-button
+          #submitBtn
+          [styleClass]="'simple-btn'"
+          [tabIndex]="1"
+          [disabled]="pinCode.invalid"
+          (click)="confirmPin()"
+          (keydown.enter)="confirmPin()"
+          label="Confirm"
+        ></p-button>
+      </div>
+      <p-inputIcon
+      styleClass="btn-icon space pi pi-times"
+      (click)="clearPinCode()"
+    />
+      <p-inputIcon
+        styleClass="btn-icon space pi {{ getStatusIcon() }}"
+        (click)="pinCode.enabled && toggleVisibility()"
+      />
+      <p-inputIcon
+        styleClass="btn-icon space pi pi-pen-to-square"
+        (click)="pinCode.enabled && panel.toggle($event, pinCodeField)"
+      />
+      <p-popover #panel>
+        <lib-atm-keyboard [control]="pinCode"></lib-atm-keyboard>
+      </p-popover>
+    </div>
+  </ng-template>
+</p-card>

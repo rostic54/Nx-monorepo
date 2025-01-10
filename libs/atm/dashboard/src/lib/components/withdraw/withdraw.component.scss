@@ -1,0 +1,20 @@
+
+.container {
+  .card-body{
+    position: relative;
+  }
+  .error {
+    position: absolute;
+    bottom: -30px;
+    left: 200px;
+    font-size: 18px;
+  }
+  ::ng-deep .space {
+    cursor: pointer;
+    margin-left: 20px;
+    &.btn-icon {
+      font-size: 25px;
+      cursor: pointer;
+    }
+  }
+}

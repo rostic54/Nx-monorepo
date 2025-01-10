@@ -1,1 +1,31 @@
-<p>Dashboard works!</p>
+<ng-container *ngIf="userInfo$ | async as UseInfo">
+  <h1 class="greeting">Hello, {{ UseInfo.card_holder }}</h1>
+  <div class="tab-wrap">
+    <p-tabs value="0">
+        <p-tablist>
+            <p-tab value="0">Card Info</p-tab>
+            <p-tab value="1">Balance</p-tab>
+            <p-tab value="2">Withdrowal</p-tab>
+        </p-tablist>
+      <p-tabpanels styleClass="tabview-custom">
+        <p-tabpanel header="Card View" value="0">
+          <p-card header="Card">
+            <div class="card-section flex center">
+              <lib-credit-card [userInfo]="UseInfo"></lib-credit-card>
+            </div>
+          </p-card>
+        </p-tabpanel>
+        <p-tabpanel header="Balance" value="1">
+          <p-card header="Balance details">
+            <lib-balance></lib-balance>
+          </p-card>
+        </p-tabpanel>
+        <p-tabpanel header="Withdrawal" value="2">
+          <p-card header="Withdrawal operation">
+            <lib-withdraw></lib-withdraw>
+          </p-card>
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+  </div>
+</ng-container>

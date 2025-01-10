@@ -22,7 +22,16 @@
             "input": "apps/atm/public"
           }
         ],
-        "styles": ["apps/atm/src/styles.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/shared/styles/atm"],
+          "sass": {
+           "silenceDeprecations": ["mixed-decls", "color-functions", "global-builtin", "import"]
+      }
+        },
+        "styles": [
+          "apps/atm/src/styles.scss",
+   
+           "libs/shared/styles/atm/_variables.scss"],
         "scripts": []
       },
       "configurations": {

@@ -1,0 +1,18 @@
+:host ::ng-deep {
+    .card-wrap {
+      height: 400px;
+      margin: 150px 50px;
+      .space {
+        margin-right: 15px;
+      }
+      .label {
+        font-size: 25px;
+        font-weight: bold;
+      }
+      .btn-icon {
+        font-size: 25px;
+        cursor: pointer;
+      }
+    }
+  }
+  
