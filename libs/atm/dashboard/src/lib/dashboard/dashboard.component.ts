@@ -12,7 +12,7 @@ import { WithdrawComponent } from '../components/withdraw/withdraw.component';
 @Component({
   selector: 'lib-dashboard',
   imports: [CommonModule, BalanceComponent, TabsModule, CardModule, CreditCardComponent, WithdrawComponent],
-  providers: [UserService, SessionService],
+  providers: [UserService],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })

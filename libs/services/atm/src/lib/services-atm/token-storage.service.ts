@@ -18,6 +18,4 @@ export class TokenStorageService {
   public removeToken(): void {
     window.sessionStorage.removeItem(this.TOKEN);
   }
-
-  constructor() { }
 }

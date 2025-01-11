@@ -7,7 +7,7 @@ export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
 
   if(!sessionService.isSessionActive()) {
-    return router.createUrlTree(['/pin'])
+    return router.createUrlTree(['/pincode'])
   }
   return true;
 };

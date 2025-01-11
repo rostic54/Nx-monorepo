@@ -3,12 +3,13 @@ import {UserService} from "@angular-monorepo/services-atm";
 import { Observable } from 'rxjs';
 import { FinanceDetails } from '@angular-monorepo/core-atm';
 import { CommonModule } from '@angular/common';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'lib-balance',
   templateUrl: './balance.component.html',
   styleUrl: './balance.component.scss',
-  imports: [CommonModule],
+  imports: [CommonModule, InputNumberModule],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'lib-atm-header',
   imports: [ButtonModule, CommonModule],
-  providers: [SessionService],
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
