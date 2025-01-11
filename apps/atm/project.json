@@ -20,6 +20,11 @@
           {
             "glob": "**/*",
             "input": "apps/atm/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/shared/ui/src/assets/images",
+            "output": "assets/images"
           }
         ],
         "stylePreprocessorOptions": {
