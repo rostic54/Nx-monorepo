@@ -1,0 +1,10 @@
+{
+    "/atm": {
+      "target": "http://localhost:4201",
+      "secure": false
+    },
+    "/calendar": {
+      "target": "http://localhost:4202",
+      "secure": false
+    }
+  }

@@ -1,26 +1,25 @@
 {
-  "name": "atm",
+  "name": "catalog",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/atm/src",
+  "sourceRoot": "apps/catalog/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/atm",
-        "index": "apps/atm/src/index.html",
-        "browser": "apps/atm/src/main.ts",
+        "outputPath": "dist/apps/catalog",
+        "index": "apps/catalog/src/index.html",
+        "browser": "apps/catalog/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/atm/tsconfig.app.json",
+        "tsConfig": "apps/catalog/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "baseHref": "/atm/",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/atm/public"
+            "input": "apps/catalog/public"
           },
           {
             "glob": "**/*",
@@ -28,16 +27,11 @@
             "output": "assets/images"
           }
         ],
-        "stylePreprocessorOptions": {
-          "includePaths": ["libs/shared/styles/atm"],
-          "sass": {
-           "silenceDeprecations": ["mixed-decls", "color-functions", "global-builtin", "import"]
-      }
-        },
         "styles": [
-          "apps/atm/src/styles.scss",
-   
-           "libs/shared/styles/atm/_variables.scss"],
+          "apps/catalog/src/styles.scss",
+           "libs/shared/styles/calendar/_variables.scss",
+          "libs/shared/styles/calendar/_global.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -68,21 +62,22 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "atm:build:production"
+          "buildTarget": "catalog:build:production"
         },
         "development": {
-          "buildTarget": "atm:build:development"
+          "buildTarget": "catalog:build:development"
         }
       },
       "defaultConfiguration": "development",
       "options": {
-        "port": 4201
+        "proxyConfig": "apps/catalog/proxy.conf.json",
+        "port": 4200
       }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "atm:build"
+        "buildTarget": "catalog:build"
       }
     },
     "lint": {
@@ -92,15 +87,15 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/atm/jest.config.ts"
+        "jestConfig": "apps/catalog/jest.config.ts"
       }
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "atm:build",
+        "buildTarget": "catalog:build",
         "port": 4200,
-        "staticFilePath": "dist/apps/atm/browser",
+        "staticFilePath": "dist/apps/catalog/browser",
         "spa": true
       }
     }

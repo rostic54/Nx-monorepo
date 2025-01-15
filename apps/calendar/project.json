@@ -16,6 +16,7 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/calendar/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "baseHref": "/calendar/",
         "assets": [
           {
             "glob": "**/*",
@@ -70,7 +71,10 @@
           "buildTarget": "calendar:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4202
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",

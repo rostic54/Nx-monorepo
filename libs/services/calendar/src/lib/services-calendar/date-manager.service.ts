@@ -1,4 +1,4 @@
-import {effect, Injectable, Signal, signal, WritableSignal} from '@angular/core';
+import {effect, inject, Injectable, Signal, signal} from '@angular/core';
 import {LocalStorageService} from "./local-storage.service";
 import {ScheduledEvent} from "@angular-monorepo/models-calendar";
 import {Day} from "@angular-monorepo/models-calendar";
@@ -12,17 +12,18 @@ import {DayFactory} from "@angular-monorepo/factories-calendar";
   providedIn: 'root'
 })
 export class DateManagerService {
+  private storageService = inject(LocalStorageService)
   private readonly LAST_VIEWED_DATE = 'lastViewedDate'
   private _currentDate = signal(new Date());
-  private _monthDays: WritableSignal<Day[]> = signal([]);
-  private _activeMonth: WritableSignal<Month> = signal(new Month(this._currentDate()));
-  private _selectedDay: WritableSignal<Day> = signal(new Day(new Date(), []));
-  private _daySelectionMode: WritableSignal<boolean> = signal(false);
+  private _monthDays = signal<Day[]>([]);
+  private _activeMonth = signal<Month>(new Month(this._currentDate()));
+  private _selectedDay = signal<Day>(new Day(new Date(), []));
+  private _daySelectionMode = signal<boolean>(false);
   getSelectedDay$: BehaviorSubject<Day> = new BehaviorSubject(new Day(new Date(), []));
   selectedDayIndex!: number;
 
-  constructor(private httpService: LocalStorageService) {
-    const storedDate = this.httpService.getItemFromLocalStorage(this.LAST_VIEWED_DATE);
+  constructor() {
+    const storedDate = this.storageService.getItemFromLocalStorage(this.LAST_VIEWED_DATE);
     if (storedDate.length) {
       const date = new Date(JSON.parse(storedDate));
       this._currentDate.set(date);
@@ -72,11 +73,10 @@ export class DateManagerService {
 
   toggleSelectionMode(): void {
     this._daySelectionMode.set(!this._daySelectionMode());
-    console.log(this._daySelectionMode());
   }
 
   saveViewedDate(currentDate: Date): void {
-    this.httpService.setItemToLocalStorage(this.LAST_VIEWED_DATE, JSON.stringify(currentDate))
+    this.storageService.setItemToLocalStorage(this.LAST_VIEWED_DATE, JSON.stringify(currentDate))
   }
 
   isNotEqualToCurrentDate(date: Date): boolean {
@@ -115,7 +115,7 @@ export class DateManagerService {
 
   getEventsByDate(dateInMilliseconds: number): ScheduledEvent[] {
     const resetDateHours = createDateInstance(dateInMilliseconds).setHours(0, 0, 0, 0);
-    const storedEventsStr = this.httpService.getCalendarEvents() || null;
+    const storedEventsStr = this.storageService.getCalendarEvents() || null;
     if (storedEventsStr) {
       const storedEvents = storedEventsStr;
       const eventsForDay = storedEvents[resetDateHours] || [];
@@ -125,7 +125,7 @@ export class DateManagerService {
   }
 
   updateDaysInStore(days: Day[]) {
-    this.httpService.updateStore(days);
+    this.storageService.updateStore(days);
   }
 
   setAppropriateMonth(date: Date): void {

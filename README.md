@@ -1,7 +1,18 @@
 # AngularMonorepo
 
+CATALOG - Project description: 
 
-ATM PROJECT DESCRIPTION: 
+ The project provides access to all projects in monorepo. User is capable open any available project in the list. 
+ It will be opened in new tab
+
+ 1. To run all the projects perform next command:  
+ 
+ ```sh
+   npx nx run-many --target=serve --projects=catalog,atm,calendar
+ ```
+
+
+ATM - PROJECT DESCRIPTION: 
 
 
 This is the simple application was done as part of test task. The features and a behavior are requirements of 'client'. 
