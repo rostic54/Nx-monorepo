@@ -1,5 +1,5 @@
 import { CommonModule, NgClass } from '@angular/common';
-import { Component, Signal } from '@angular/core';
+import { Component, Signal, OnInit } from '@angular/core';
 import { MonthComponent } from './components/month/month.component';
 import { YearComponent } from './components/year/year.component';
 import { DateManagerService } from '@angular-monorepo/services-calendar';
@@ -18,7 +18,7 @@ import { Day, Month } from '@angular-monorepo/models-calendar';
   templateUrl: './agenda.component.html',
   styleUrl: './agenda.component.scss',
 })
-export class AgendaComponent {
+export class AgendaComponent implements OnInit {
   currentDate!: Signal<Date>;
     days!: Signal<Day[]>;
     activeMonth!: Signal<Month>;
