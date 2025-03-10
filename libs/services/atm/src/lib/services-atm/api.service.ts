@@ -16,7 +16,7 @@ export class ApiService {
   }
 
   get(url: string): Observable<any> {
-    return this.http.get<Response>(url)
+    return this.http?.get<Response>(url)
   }
 
   post(amount: number): Observable<boolean> {

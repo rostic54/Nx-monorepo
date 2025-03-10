@@ -1,7 +1,5 @@
 import {
     Component,
-    ComponentFactoryResolver,
-    ComponentRef, DoCheck,
     EventEmitter,
     Input,
     OnInit,
@@ -16,7 +14,6 @@ import {Day, ScheduledEvent} from "@angular-monorepo/models-calendar";
 import {
     CdkDrag,
     CdkDragDrop,
-    CdkDragHandle,
     CdkDropList,
     DragDropModule,
     moveItemInArray,
@@ -24,7 +21,7 @@ import {
 } from "@angular/cdk/drag-drop";
 import {EventBriefInfoComponent} from "@angular-monorepo/ui";
 import {DateManagerService, NotificationService} from "@angular-monorepo/services-calendar";
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
@@ -82,6 +79,7 @@ export class WeekComponent implements OnInit {
 
     constructor(private dateManagerService: DateManagerService,
                 private router: Router,
+                private route: ActivatedRoute,
                 private notificationService: NotificationService,
                 private viewContainerRef: ViewContainerRef,
                 private dialog: MatDialog) {
@@ -90,8 +88,6 @@ export class WeekComponent implements OnInit {
     ngOnInit() {
         this.initForm();
         this.isSelectionModeActive = this.dateManagerService.isSelectionModeActive;
-
-        // this.importantDays$.subscribe(d => console.log('GETTING STORE OF IMPORTANT_DAYS: ', d));
     }
 
     drop(event: CdkDragDrop<ScheduledEvent[]>) {
@@ -128,7 +124,7 @@ export class WeekComponent implements OnInit {
     }
 
     openDayDetails() {
-        this.router.navigate(['day']);
+        this.router.navigate(['calendar/day']);
     }
 
     clearFormAndDnD() {
@@ -150,7 +146,6 @@ export class WeekComponent implements OnInit {
         }).afterClosed()
             .subscribe(() => {
                     if (this.storedDayForm.valid) {
-                        console.log(this.storedDayForm.value);
                         const selectedDate = this.dateManagerService.getDetailsForImportantDate()
                         const importantDateId = selectedDate.getTime();
                         const payload: ImportantDate = new ImportantDate(importantDateId, selectedDate, this.storedDayForm.value);

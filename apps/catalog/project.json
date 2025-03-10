@@ -7,15 +7,15 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/catalog",
         "index": "apps/catalog/src/index.html",
-        "browser": "apps/catalog/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/catalog/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "main": "apps/catalog/src/main.ts",
         "assets": [
           {
             "glob": "**/*",
@@ -29,10 +29,13 @@
         ],
         "styles": [
           "apps/catalog/src/styles.scss",
-           "libs/shared/styles/calendar/_variables.scss",
+          "libs/shared/styles/calendar/_variables.scss",
           "libs/shared/styles/calendar/_global.scss"
         ],
-        "scripts": []
+        "scripts": [],
+        "customWebpackConfig": {
+          "path": "apps/catalog/webpack.config.ts"
+        }
       },
       "configurations": {
         "production": {
@@ -48,7 +51,10 @@
               "maximumError": "8kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "customWebpackConfig": {
+            "path": "apps/catalog/webpack.prod.config.ts"
+          }
         },
         "development": {
           "optimization": false,
@@ -59,7 +65,12 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@nx/angular:module-federation-dev-server",
+      "options": {
+
+        "port": 4200,
+        "publicHost": "http://localhost:4200"
+      },
       "configurations": {
         "production": {
           "buildTarget": "catalog:build:production"
@@ -68,11 +79,7 @@
           "buildTarget": "catalog:build:development"
         }
       },
-      "defaultConfiguration": "development",
-      "options": {
-        "proxyConfig": "apps/catalog/proxy.conf.json",
-        "port": 4200
-      }
+      "defaultConfiguration": "development"
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",

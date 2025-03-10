@@ -1,4 +1,4 @@
-@import "variables";
+@use "../../../../libs/shared/styles/atm/variables" as *; 
 
 .spiner-container {
   position: absolute;

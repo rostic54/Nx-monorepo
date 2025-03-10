@@ -8,7 +8,7 @@ CATALOG - Project description:
  1. To run all the projects perform next command:  
  
  ```sh
-   npx nx run-many --target=serve --projects=catalog,atm,calendar
+   nx run catalog:serve-all
  ```
 
 

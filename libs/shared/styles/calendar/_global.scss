@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@use "./_variables";
+@use "../../styles/calendar/variables" as *;
 
 .main-container {
   vertical-align: center;
@@ -46,7 +46,7 @@
   }
 }
 .alert {
-  color: variables.$alert;
+  color: $alert;
 }
 
 .btn {

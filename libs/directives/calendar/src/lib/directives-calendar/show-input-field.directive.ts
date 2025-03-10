@@ -30,10 +30,8 @@ export class ShowInputFieldDirective {
   @HostListener('window:click', ['$event'])
   clickOutside(event: any): void {
     if(this.selected) {
-      console.log('NATIVE ELEMENT IN DIRECTIVE: ', this.elementRef.nativeElement);
       const clickedInside: boolean = this.elementRef.nativeElement.contains(event.target);
       if (!clickedInside) {
-        console.log('missclicked')
         this.selected = false;
         this.missClicked.emit(false);
         // this.clearContainer();

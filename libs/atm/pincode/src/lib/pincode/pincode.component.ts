@@ -78,7 +78,7 @@ export class PincodeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 
   toggleVisibility(): void {
@@ -151,7 +151,7 @@ export class PincodeComponent implements OnInit, OnDestroy {
       )
       .subscribe((result: boolean) => {
         if (result) {
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['atm', 'dashboard']);
         } else {
           this.attempts++;
           this.establishControl();

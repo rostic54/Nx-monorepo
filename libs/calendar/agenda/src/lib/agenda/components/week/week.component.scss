@@ -1,4 +1,4 @@
-@import "variables";
+@use "libs/shared/styles/calendar/variables" as *;
 
 .calendar-day {
   position: relative;

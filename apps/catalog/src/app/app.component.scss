@@ -61,3 +61,7 @@
 .gallery-item:hover .overlay {
   opacity: 1;
 }
+
+[id^="menu-"] {
+  display: none;
+}

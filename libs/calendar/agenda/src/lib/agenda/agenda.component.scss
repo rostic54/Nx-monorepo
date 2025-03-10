@@ -1,4 +1,4 @@
-@import "_variables";
+@use "libs/shared/styles/calendar/variables" as *;
 
 :host {
   height: 100%;

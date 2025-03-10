@@ -4,7 +4,7 @@ import {BehaviorSubject} from "rxjs";
 import {scheduledEventFactory} from "@angular-monorepo/factories-calendar";
 import {ScheduledEvent} from "@angular-monorepo/models-calendar";
 import {DayFactory} from "@angular-monorepo/factories-calendar";
-import {createDateInstance, getBeginningOfDayInMilliseconds} from "@angular-monorepo/utils-calendar";
+import {createDateInstance} from "@angular-monorepo/utils-calendar";
 
 export interface ICalendar {
   [key: string]: Day
@@ -57,7 +57,6 @@ export class LocalStorageService {
   updateStore(days: Day[]): void {
     const calendarStore = this.calendarStoredData$.value;
     days.forEach((day: Day) => {
-      console.log('DAY IN STORE SAVER:', day);
       day.date.setHours(0, 0, 0, 0);
       // const searchableEvent = calendarStore[day.date.getTime()];
       // if (searchableEvent) {
@@ -70,7 +69,6 @@ export class LocalStorageService {
       // }
         calendarStore[day.date.getTime()] = day;
     })
-    console.log('COLLECTED STORE: ', calendarStore);
     this.calendarStoredData$.next(calendarStore);
   }
 

@@ -1,0 +1,4 @@
+{
+    "atm": "http://localhost:4201/remoteEntry.mjs",
+  "calendar": "http://localhost:4202/remoteEntry.mjs"
+}
