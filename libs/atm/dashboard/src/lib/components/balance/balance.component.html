@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="card-body flex align-center center">
+    <span class="label">Available:</span>
+    <p-inputNumber
+      type="text"
+      pInputText
+      [disabled]="true"
+      placeholder="{{ (userFinanceDetails | async)?.card_balance }}"
+    ></p-inputNumber>
+  </div>
+</div>

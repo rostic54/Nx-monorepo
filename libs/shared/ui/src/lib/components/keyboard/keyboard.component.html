@@ -1,0 +1,23 @@
+
+<div class="keyboard-wrap">
+  <div class="row">
+  <p-button label="1" [styleClass]="'round-btn'" [rounded]="true" data-key="1" (onClick)="addNumber(1)" severity="secondary"></p-button>
+  <p-button label="2" [styleClass]="'round-btn'" [rounded]="true" data-key="2" (onClick)="addNumber(2)" severity="secondary"></p-button>
+  <p-button label="3" [styleClass]="'round-btn'" [rounded]="true" data-key="3" (onClick)="addNumber(3)" severity="secondary"></p-button>
+  </div>
+  <div class="row">
+    <p-button label="4" [styleClass]="'round-btn'" [rounded]="true" data-key="4" (onClick)="addNumber(4)" severity="secondary"></p-button>
+    <p-button label="5" [styleClass]="'round-btn'" [rounded]="true" data-key="5" (onClick)="addNumber(5)" severity="secondary"></p-button>
+    <p-button label="6" [styleClass]="'round-btn'" [rounded]="true" data-key="6" (onClick)="addNumber(6)" severity="secondary"></p-button>
+  </div>
+  <div class="row">
+    <p-button label="7" [styleClass]="'round-btn'" [rounded]="true" data-key="7" (onClick)="addNumber(7)" severity="secondary"></p-button>
+    <p-button label="8" [styleClass]="'round-btn'" [rounded]="true" data-key="8" (onClick)="addNumber(8)" severity="secondary"></p-button>
+    <p-button label="9" [styleClass]="'round-btn'" [rounded]="true" data-key="9" (onClick)="addNumber(9)" severity="secondary"></p-button>
+  </div>
+  <div class="row">
+    <p-button icon="pi pi-angle-double-left" [styleClass]="'round-btn'" [rounded]="true" (onClick)="clearAll()" severity="secondary"></p-button>
+    <p-button label="0" [styleClass]="'round-btn'" [rounded]="true" data-key="0" (onClick)="addNumber(0)" severity="secondary"></p-button>
+    <p-button icon="pi pi-angle-left" [styleClass]="'round-btn'" [rounded]="true" (onClick)="clearLast()" severity="secondary"></p-button>
+  </div>
+</div>

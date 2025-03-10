@@ -1,0 +1,22 @@
+.greeting {
+    margin: 100px 40px 80px;
+  }
+  
+  .tab-wrap {
+    margin: 20px;
+  }
+  
+  :host {
+    ::ng-deep {
+      .p-card {
+        min-height: 500px;
+      }
+    }
+    .spiner-container {
+      position: absolute;
+      top: 50%;
+  
+      text-align: center;
+    }
+  }
+  

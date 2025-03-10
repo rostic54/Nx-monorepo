@@ -1,8 +1,28 @@
 # AngularMonorepo
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+CATALOG - Project description: 
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+ The project provides access to all projects in monorepo. User is capable open any available project in the list. 
+ It will be opened in new tab
+
+ 1. To run host 'catalog' project and upload remote on request. Perform next command:  
+ 
+ ```sh
+   nx serve catalog
+ ```
+
+
+ATM - PROJECT DESCRIPTION: 
+
+
+This is the simple application was done as part of test task. The features and a behavior are requirements of 'client'. 
+It took about 9 hours to complete from the scratch.
+
+1. PIN_CODE: current year; (Ex: 2024);
+2. Possible withdrawal not more than balance; 
+3. Withdrawing result alternates with 'Technical Error"
+
+
 
 [Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
 

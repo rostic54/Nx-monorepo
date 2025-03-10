@@ -1,2 +1,8 @@
-<app-nx-welcome></app-nx-welcome>
-<router-outlet></router-outlet>
+<div class="spiner-container" *ngIf="isLoading">
+    <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+  </div>
+  <div [ngClass]="{'loading': isLoading}">
+    <lib-atm-header></lib-atm-header>
+    <p-toast></p-toast>
+    <router-outlet></router-outlet>
+  </div>

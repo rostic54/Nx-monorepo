@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "./_variables";
+@use "../../styles/calendar/variables" as *;
 
 .main-container {
   vertical-align: center;
@@ -55,7 +55,6 @@
 
 html, body {
   height: 100%;
-  background-image: url("../../assets/images/img_1.png");
+  background-image: url("/assets/images/img_1.png");
   background-repeat: repeat;
 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

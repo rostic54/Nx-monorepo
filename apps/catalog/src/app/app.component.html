@@ -1,0 +1,29 @@
+<h1 class="flex center">
+  Here is a list of cool applications to make your life easier!
+</h1>
+<div class="gallery">
+  <div class="gallery-item">
+    <img
+      src="assets/images/atm_preview.png"
+      alt="Image"
+    />
+    <div class="overlay">
+      <h3>ATM</h3>
+      <p>App for withdrawing & payment</p>
+      <p-button severity="success" variant="outlined" label="Go to App" (click)="runApp('atm')"/>
+    </div>
+  </div>
+  <div class="gallery-item">
+    <img
+      src="assets/images/calendar_preview.png"
+      alt="Image"
+    />
+    <div class="overlay">
+      <h3>Calendar</h3>
+      <p>App for schedule an appointment</p>
+      <p-button severity="success" variant="outlined" label="Go to App" (click)="runApp('calendar')"
+        />
+    </div>
+  </div>
+</div>
+<router-outlet #remoteContainer></router-outlet>

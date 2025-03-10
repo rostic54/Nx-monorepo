@@ -1,0 +1,56 @@
+@use "../../../../../styles/calendar/variables" as *;
+
+.container {
+  position: relative;
+  background-color: $mainBlue;
+  padding: 25px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: $lightFontColor;
+  letter-spacing: 2px;
+  box-shadow: 0 3px 3px 0 $naveBlue;
+
+  .accent {
+    color: $naveBlue;
+    text-transform: uppercase;
+    letter-spacing: .1px;
+    box-shadow: 0 0 11px 6px $lightBlue;
+    border-radius: 5px;
+    padding: 5px 10px;
+  }
+
+  .logo {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    box-shadow: 0 0 13px 4px $mainBlue;
+    width: 130px;
+    height: 130px;
+    border-radius: 100%;
+    background-image: url("../../../assets/images/blue-logo.png");
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+
+    &.rotating {
+      animation: rotation 2s infinite linear;
+      @keyframes rotation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    }
+  }
+
+  ::ng-deep .exit-btn {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: $yellow;
+  }
+}

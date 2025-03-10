@@ -7,15 +7,16 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/calendar",
         "index": "apps/calendar/src/index.html",
-        "browser": "apps/calendar/src/main.ts",
+        "main": "apps/calendar/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/calendar/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "baseHref": "/calendar/",
         "assets": [
           {
             "glob": "**/*",
@@ -28,16 +29,15 @@
           "libs/shared/styles/calendar/_variables.scss",
           "libs/shared/styles/calendar/_global.scss"
         ],
-        "stylePreprocessorOptions": {
-            "includePaths": ["libs/shared/styles/calendar"],
-            "sass": {
-             "silenceDeprecations": ["mixed-decls", "color-functions", "global-builtin", "import"]
+     
+        "scripts": [],
+        "customWebpackConfig": {
+          "path": "apps/calendar/webpack.config.ts"
         }
-          },
-        "scripts": []
       },
       "configurations": {
         "production": {
+          "main": "apps/calendar/src/bootstrap.ts",
           "budgets": [
             {
               "type": "initial",
@@ -50,18 +50,24 @@
               "maximumError": "8kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "customWebpackConfig": {
+            "path": "apps/calendar/webpack.prod.config.ts"
+          }
         },
         "development": {
           "optimization": false,
           "extractLicenses": false,
-          "sourceMap": true
+          "sourceMap": true,
+          "customWebpackConfig": {
+            "path": "apps/calendar/webpack.prod.config.ts"
+          }
         }
       },
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@nx/angular:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "calendar:build:production"
@@ -70,7 +76,11 @@
           "buildTarget": "calendar:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "options": {
+        "publicHost": "http://localhost:4202", 
+        "port": 4202
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -92,8 +102,8 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "calendar:build",
-        "port": 4200,
-        "staticFilePath": "dist/apps/calendar/browser",
+        "port": 4202,
+      
         "spa": true
       }
     }

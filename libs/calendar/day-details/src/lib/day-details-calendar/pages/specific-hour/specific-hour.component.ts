@@ -27,7 +27,6 @@ export class SpecificHourComponent implements OnInit, OnDestroy {
 
   constructor(private dateManagerService: DateManagerService,
               private route: ActivatedRoute) {
-                console.log('CONSTR IN EDIT SPECIFIC HOUR')
   }
 
   ngOnDestroy() {

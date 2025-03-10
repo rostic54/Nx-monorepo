@@ -1,0 +1,10 @@
+<div class="container">
+  <div class="logo"
+       [ngClass]="{'rotating': loading$ | async}">
+  </div>
+  <div class="title">Welcome to <span class="accent">Best Bank</span></div>
+  <p-button [styleClass]="'exit-btn'"
+            *ngIf="isActive"
+            (onClick)="exit()"
+  >EXIT</p-button>
+</div>

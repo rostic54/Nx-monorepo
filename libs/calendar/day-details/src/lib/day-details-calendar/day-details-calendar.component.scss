@@ -1,4 +1,4 @@
-@import "variables";
+@use "../../../../../shared/styles/calendar/variables.scss" as *;
 
 :host {
   display: flex;

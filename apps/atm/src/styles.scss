@@ -1,1 +1,60 @@
 /* You can add global styles to this file, and also import other style files */
+@use "primeicons/primeicons.css";
+@use "../../../libs/shared/styles/calendar/variables";
+
+body {
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+  }
+  
+  .flex {
+    display: flex;
+    &.column {
+      flex-direction: column;
+    }
+    &.between {
+      justify-content: space-between;
+    }
+    &.center {
+      justify-content: center;
+    }
+    &.end {
+      justify-content: right;
+    }
+    &.align-center {
+      align-items: center;
+    }
+    &.align-end {
+      align-items: end;
+    }
+    &.align-stretch {
+      align-items: stretch;
+    }
+    .flex-item {
+      &.grow-1 {
+        flex-grow: 1;
+      }
+    }
+    .flex-wrap {
+      &.wrap {
+        flex-wrap: wrap;
+      }
+    }
+  }
+  
+  .card-body {
+    margin-top: 50px;
+    font-size: 25px;
+    .label {
+      font-weight: 400;
+      margin-right: 20px;
+    }
+    .input-field {
+      margin-right: 20px;
+    }
+  }
+  
+  .simple-btn {
+    // background-color: $mainBlue;
+    background-color: blue;
+  }
