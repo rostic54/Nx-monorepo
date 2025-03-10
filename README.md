@@ -5,10 +5,10 @@ CATALOG - Project description:
  The project provides access to all projects in monorepo. User is capable open any available project in the list. 
  It will be opened in new tab
 
- 1. To run all the projects perform next command:  
+ 1. To run host 'catalog' project and upload remote on request. Perform next command:  
  
  ```sh
-   nx run catalog:serve-all
+   nx serve catalog
  ```
 
 
