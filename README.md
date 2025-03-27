@@ -23,6 +23,12 @@ It took about 9 hours to complete from the scratch.
 3. Withdrawing result alternates with 'Technical Error"
 
 
+## Generate library 
+
+```sh
+npx nx g @nx/angular:library libs/services/calendar --standalone
+```
+
 
 [Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
 

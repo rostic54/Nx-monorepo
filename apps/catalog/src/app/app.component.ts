@@ -4,9 +4,10 @@ import { ButtonModule } from 'primeng/button';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { APP_CONSTATNTS, APP_HOST_CONFIG, AppList, AppHostConfig } from './utils/constants';
+import { NgClass } from '@angular/common';
 
 @Component({
-  imports: [RouterModule, ButtonModule],
+  imports: [RouterModule, ButtonModule, NgClass],
   standalone: true,
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,6 +18,7 @@ export class AppComponent {
   
   safeUrl: SafeResourceUrl;
   appsList: AppList[];
+  activeApp = 'calendar';
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -29,6 +31,7 @@ export class AppComponent {
   }
 
   runApp(appName: string) {
+    this.activeApp = appName;
     const appHostDetails = this.getAppByName(appName);
     if (!appHostDetails) return;
 
