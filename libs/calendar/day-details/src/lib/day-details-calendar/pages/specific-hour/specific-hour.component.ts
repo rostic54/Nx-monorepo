@@ -2,11 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DateManagerService} from "@angular-monorepo/services-calendar";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {MatButtonModule} from "@angular/material/button";
-import {ScheduledEvent} from "@angular-monorepo/models-calendar";
-import {Day} from "@angular-monorepo/models-calendar";
 import {MatSelectModule} from "@angular/material/select";
 import {EventCreateFormComponent} from "../../components/event-create-form/event-create-form.component";
 import {Subscription} from "rxjs";
+import { IDay, IScheduledEvent } from '@angular-monorepo/types-calendar';
 
 @Component({
   selector: 'lib-specific-hour',
@@ -22,7 +21,7 @@ import {Subscription} from "rxjs";
 })
 export class SpecificHourComponent implements OnInit, OnDestroy {
   hourNumber!: {hours: string};
-  currentDate!: Day;
+  currentDate!: IDay;
   subscription = new Subscription();
 
   constructor(private dateManagerService: DateManagerService,
@@ -42,7 +41,7 @@ export class SpecificHourComponent implements OnInit, OnDestroy {
   }
 
 
-  createEvent(newEvent: ScheduledEvent): void {
+  createEvent(newEvent: IScheduledEvent): void {
     this.dateManagerService.createEventForParticularDate(newEvent)
   }
 

@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit, Signal} from '@angular/core';
-import {Day} from "@angular-monorepo/models-calendar";
 import {DateManagerService} from "@angular-monorepo/services-calendar";
 import {ScheduledEvent} from "@angular-monorepo/models-calendar";
 import {NgForOf} from "@angular/common";
@@ -10,6 +9,7 @@ import {EventEditDialogComponent} from "@angular-monorepo/ui";
 import {MatDialog} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
 import {NotificationService} from "@angular-monorepo/services-calendar";
+import { IDay, IScheduledEvent } from '@angular-monorepo/types-calendar';
 
 @Component({
   selector: 'lib-app-general-day-info',
@@ -22,8 +22,8 @@ import {NotificationService} from "@angular-monorepo/services-calendar";
   styleUrl: './general-day-info.component.scss'
 })
 export class GeneralDayInfoComponent implements OnInit, OnDestroy {
-  currentDayInfo!: Signal<Day>;
-  eventsList!: ScheduledEvent[];
+  currentDayInfo!: Signal<IDay>;
+  eventsList!: IScheduledEvent[];
   private destroy$ = new Subject();
 
   constructor(private dateManagerService: DateManagerService,

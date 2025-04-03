@@ -1,14 +1,15 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {WeekComponent} from "../week/week.component";
-import {Month, Day} from "@angular-monorepo/models-calendar";
+import {WeekRowsComponent} from "../week-rows/week-rows.component";
+import {Month} from "@angular-monorepo/models-calendar";
 import {MatButton} from "@angular/material/button";
+import { IDay, IDragAndDropEventDetails } from '@angular-monorepo/types-calendar';
 
 
 @Component({
   selector: 'lib-month',
   standalone: true,
   imports: [
-    WeekComponent,
+    WeekRowsComponent,
     MatButton
   ],
   templateUrl: './month.component.html',
@@ -16,10 +17,10 @@ import {MatButton} from "@angular/material/button";
 })
 export class MonthComponent {
   @Input() activeMonth!: Month;
-  @Input() days: Day[] = [];
+  @Input() days: IDay[] = [];
   @Output() setPreviousMonth: EventEmitter<void> = new EventEmitter<void>();
   @Output() setNextMonth: EventEmitter<void> = new EventEmitter<void>();
-  @Output() updateStore: EventEmitter<Day[]> = new EventEmitter<Day[]>();
+  @Output() updateStore: EventEmitter<IDragAndDropEventDetails> = new EventEmitter<IDragAndDropEventDetails>();
 
   previousMonth() {
     this.setPreviousMonth.emit();
@@ -29,8 +30,8 @@ export class MonthComponent {
     this.setNextMonth.emit();
   }
 
-  sendUpdateStore(days: Day[]): void {
-    this.updateStore.emit(days);
+  sendUpdateStore(dropDetails: IDragAndDropEventDetails): void {
+    this.updateStore.emit(dropDetails);
   }
 
 

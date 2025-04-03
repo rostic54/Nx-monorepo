@@ -1,14 +1,14 @@
 import {createDateInstance} from "@angular-monorepo/utils-calendar";
-import {IScheduledEvent} from "@angular-monorepo/types-calendar";
+import {IScheduledEvent, RequestScheduledEvent} from "@angular-monorepo/types-calendar";
 
 export class ScheduledEvent implements IScheduledEvent {
-  id: number;
+  id: string;
   currentDate: Date;
   content: string;
   editable: boolean;
 
-  constructor(date: Date, content: string, editable = false, id?: number) {
-    this.id = id || Date.now();
+  constructor(date: Date, content: string, editable = false, id: string) {
+    this.id = id;
     this.currentDate = date;
     this.content = content;
     this.editable = editable;
@@ -46,6 +46,14 @@ export class ScheduledEvent implements IScheduledEvent {
     const hours = String(this.dateHour).padStart(2, '0');
     const minutes = String(this.dateMinutes).padStart(2, '0');
     return `${hours}:${minutes}`
+  }
+
+  get requestDate(): RequestScheduledEvent {
+    return {
+      currentDate: this.currentDate,
+      content: this.content,
+      editable: this.editable
+    }
   }
 
   private convertStringToDate(date: string) {

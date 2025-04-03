@@ -47,7 +47,7 @@ import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calen
      @Input() specificHour!: {hours: string};
      @Input() isDeletable!: IDeletePermissions;
      @Output() submitFormValue: EventEmitter<ScheduledEvent> = new EventEmitter<ScheduledEvent>();
-     @Output() deleteItem: EventEmitter<number> = new EventEmitter<number>();
+     @Output() deleteItem: EventEmitter<string> = new EventEmitter<string>();
      isDisabledSubmitBtn = true;
      createdEvent!: ScheduledEvent | null;
      lengthOfTitle = 50;
@@ -113,7 +113,7 @@ import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calen
        this.isDisabledSubmitBtn = true;
        const formValue = this.eventForm.value;
        const [hours, minutes] = formValue.time.split(':');
-       const eventId: number = this.eventDetails?.id || this.createdEvent?.id || Date.now();
+       const eventId: string = this.eventDetails?.id || this.createdEvent?.id || Date.now().toString();
        const isEditable = this.eventDetails?.editable || this.createdEvent?.editable || false;
        const newEvent = this.createEventFrom(hours, minutes, formValue.title, isEditable, eventId);
        this.submitFormValue.emit(newEvent);
@@ -151,7 +151,7 @@ import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calen
      private createNewEvent(hours: number, minutes = 0): ScheduledEvent {
        return scheduledEventFactory(createDateWithSpecifiedTime(this.date, hours, minutes));
      }
-     private createEventFrom(hours: number, minutes = 0, content: string, isEditable: boolean, id: number): ScheduledEvent {
+     private createEventFrom(hours: number, minutes = 0, content: string, isEditable: boolean, id: string): ScheduledEvent {
        return scheduledEventFactory(createDateWithSpecifiedTime(this.date, hours, minutes), content, isEditable, id);
      }
    }

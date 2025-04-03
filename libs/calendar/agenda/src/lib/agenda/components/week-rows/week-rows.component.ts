@@ -32,6 +32,7 @@ import {
 import {MatDialog} from "@angular/material/dialog";
 import {ImportantDate} from "../../calendar/store/important-date/important-date.model";
 import {MatIcon} from "@angular/material/icon";
+import { IDay, IDragAndDropEventDetails, IScheduledEvent } from '@angular-monorepo/types-calendar';
 
 @Component({
     selector: 'lib-week',
@@ -54,18 +55,18 @@ import {MatIcon} from "@angular/material/icon";
         MatButton,
         MatIcon,
     ],
-    templateUrl: './week.component.html',
-    styleUrl: './week.component.scss'
+    templateUrl: './week-rows.component.html',
+    styleUrl: './week-rows.component.scss'
 })
-export class WeekComponent implements OnInit {
+export class WeekRowsComponent implements OnInit {
 
-    @Input() days: Day[] = [];
-    @Output() gotChanged: EventEmitter<Day[]> = new EventEmitter<Day[]>();
+    @Input() days: IDay[] = [];
+    @Output() dropDetails: EventEmitter<IDragAndDropEventDetails> = new EventEmitter<IDragAndDropEventDetails>();
 
     isSelectionModeActive!: Signal<boolean>;
     storedDayForm!: FormGroup;
-    private toValue!: Day | null;
-    private fromValue!: Day | null;
+    private toValue!: IDay | null;
+    private fromValue!: IDay | null;
 
     readonly week = [
         WeekDays.Monday,
@@ -79,9 +80,7 @@ export class WeekComponent implements OnInit {
 
     constructor(private dateManagerService: DateManagerService,
                 private router: Router,
-                private route: ActivatedRoute,
                 private notificationService: NotificationService,
-                private viewContainerRef: ViewContainerRef,
                 private dialog: MatDialog) {
     }
 
@@ -90,7 +89,8 @@ export class WeekComponent implements OnInit {
         this.isSelectionModeActive = this.dateManagerService.isSelectionModeActive;
     }
 
-    drop(event: CdkDragDrop<ScheduledEvent[]>) {
+    drop(event: CdkDragDrop<IScheduledEvent[]>) {
+        console.log(event);
         if (event.previousContainer === event.container) {
             moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
         } else {
@@ -101,16 +101,16 @@ export class WeekComponent implements OnInit {
                 event.currentIndex,
             );
             this.notificationService.openSnackBar('The appointment was postponed successfully.')
-            this.emitChangedDayValue([this.fromValue!, this.toValue!]);
+            this.emitChangedDayValue(this.fromValue!, this.toValue!, event.container.data[0]);
             this.clearFormAndDnD();
         }
     }
 
-    entered(cell: Day) {
+    entered(cell: IDay): void {
         this.toValue = cell;
     }
 
-    exited(cell: Day) {
+    exited(cell: IDay): void {
         this.fromValue = cell;
     }
 
@@ -124,7 +124,7 @@ export class WeekComponent implements OnInit {
     }
 
     openDayDetails() {
-        this.router.navigate(['calendar/day']);
+        this.router.navigate(['day']);
     }
 
     clearFormAndDnD() {
@@ -154,8 +154,8 @@ export class WeekComponent implements OnInit {
             )
     }
 
-    private emitChangedDayValue(days: Day[]): void {
-        this.gotChanged.emit(days);
+    private emitChangedDayValue(fromDay: IDay, toDay: IDay, eventDetails: IScheduledEvent): void {
+        this.dropDetails.emit({fromDay, toDay, eventDetails});
     }
 
     private pickCorrectDayFromMonthScreen(x: number, y: number): number {

@@ -30,7 +30,7 @@ export class EventEditDialogComponent {
   this.closeDialog(`Appointment ${eventDetails.preciseTime} was edited`);
   }
 
-  deleteEvent(eventId: number): void {
+  deleteEvent(eventId: string): void {
     this.dateManagerService.deleteEventFromStore(eventId).subscribe(result => {
       this.closeDialog(result ? `Appointment at ${this.appointment.preciseTime} was deleted` : 'Appointment was not deleted');
     });
