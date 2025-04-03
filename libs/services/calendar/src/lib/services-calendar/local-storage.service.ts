@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Day } from '@angular-monorepo/models-calendar';
 import { BehaviorSubject } from 'rxjs';
 import { scheduledEventFactory } from '@angular-monorepo/factories-calendar';
 import { ScheduledEvent } from '@angular-monorepo/models-calendar';

@@ -9,7 +9,7 @@ import {
 } from '@angular-monorepo/utils-calendar';
 import { DAYS_IN_MONTH_VIEW } from '@angular-monorepo/constants';
 import { Month } from '@angular-monorepo/models-calendar';
-import { catchError, Observable, of, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { DayFactory } from '@angular-monorepo/factories-calendar';
 import { DatePipe } from '@angular/common';
 import { ScheduledEventService } from './scheduled-event.service';
@@ -73,8 +73,6 @@ export class DateManagerService {
       if (this._currentDate()) {
         this.setActiveDateToStorage(this._currentDate());
       }
-      const selDay = this._selectedDay();
-      // console.log('SELECTED DAY WAS CHANGED', selDay);
     });
   }
 
@@ -162,7 +160,6 @@ export class DateManagerService {
       editable,
       id
     );
-    debugger;
     this.scheduledEventService
       .updateEventById(dropDetails.eventDetails.id, scheduledEvent)
       .subscribe((event) => {
@@ -226,12 +223,6 @@ export class DateManagerService {
     const eventsList = this.selectedDay().events.filter(
       (ev: IScheduledEvent) => ev.id !== event.id
     );
-    // if (indexOfExistedEvent > -1) {
-    //   eventsList = this.selectedDay().events.filter((ev: ScheduledEvent) => ev.id !== event.id);
-    // } else {
-    //   eventsList = this.selectedDay().events;
-    // }
-    debugger;
     this._selectedDay.set(
       this.createDayInstance(
         this._selectedDay().date,
