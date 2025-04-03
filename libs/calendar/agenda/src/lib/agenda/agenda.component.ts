@@ -1,9 +1,10 @@
-import { CommonModule, NgClass } from '@angular/common';
+import { CommonModule, DatePipe, NgClass } from '@angular/common';
 import { Component, Signal, OnInit } from '@angular/core';
 import { MonthComponent } from './components/month/month.component';
 import { YearComponent } from './components/year/year.component';
 import { DateManagerService } from '@angular-monorepo/services-calendar';
-import { Day, Month } from '@angular-monorepo/models-calendar';
+import { Month } from '@angular-monorepo/models-calendar';
+import { IDay, IDragAndDropEventDetails } from '@angular-monorepo/types-calendar';
 
 
 @Component({
@@ -15,12 +16,13 @@ import { Day, Month } from '@angular-monorepo/models-calendar';
       NgClass,
       CommonModule
     ],
+    providers: [DatePipe],
   templateUrl: './agenda.component.html',
   styleUrl: './agenda.component.scss',
 })
 export class AgendaComponent implements OnInit {
   currentDate!: Signal<Date>;
-    days!: Signal<Day[]>;
+    days!: Signal<IDay[]>;
     activeMonth!: Signal<Month>;
     isSelectionModeActive!: Signal<boolean>;
 
@@ -34,24 +36,30 @@ export class AgendaComponent implements OnInit {
       this.isSelectionModeActive = this.dateManagerService.isSelectionModeActive;
     }
 
+    private changeDate(yearOffset = 0, monthOffset = 0): void {
+      const currentYear = this.currentDate().getFullYear();
+      const currentMonth = this.activeMonth().currentMonth;
+      this.dateManagerService.changeDate(new Date(currentYear + yearOffset, currentMonth + monthOffset));
+    }
+
     setPreviousYear(): void {
-      this.dateManagerService.changeDate(new Date(this.currentDate().getFullYear() - 1, this.activeMonth().currentMonth));
+      this.changeDate(-1, 0);
     }
 
     setNextYear(): void {
-      this.dateManagerService.changeDate(new Date(this.currentDate().getFullYear() + 1, this.activeMonth().currentMonth));
+      this.changeDate(1, 0);
     }
 
     setNextMonth(): void {
-      this.dateManagerService.changeDate(new Date(this.currentDate().getFullYear(), this.activeMonth().currentMonth + 1))
+      this.changeDate(0, 1);
     }
 
     setPreviousMonth(): void {
-      this.dateManagerService.changeDate(new Date(this.currentDate().getFullYear(), this.activeMonth().currentMonth - 1))
+      this.changeDate(0, -1);
     }
 
-    updateDaysStore(days: Day[]): void {
-      this.dateManagerService.updateDaysInStore(days);
+    updateDaysStore(dropDetails: IDragAndDropEventDetails): void {
+      this.dateManagerService.updateRemoteAndLocalStorage(dropDetails);
     }
 
     toggleSelectionMode(): void {

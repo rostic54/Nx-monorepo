@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {ScheduledEvent} from "@angular-monorepo/models-calendar";
 import {NgIf} from "@angular/common";
 import {MatTooltip} from "@angular/material/tooltip";
+import { IScheduledEvent } from '@angular-monorepo/types-calendar';
 
 @Component({
   selector: 'lib-event-brief-info',
@@ -13,5 +13,5 @@ import {MatTooltip} from "@angular/material/tooltip";
   styleUrl: './event-brief-info.component.scss'
 })
 export class EventBriefInfoComponent {
-  @Input() event: ScheduledEvent | undefined;
+  @Input() event: IScheduledEvent | undefined;
 }

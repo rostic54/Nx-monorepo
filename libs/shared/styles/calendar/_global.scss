@@ -1,9 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @use "../../styles/calendar/variables" as *;
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 .main-container {
   vertical-align: center;
   height: 100vh;
+  color: rgb(58, 53, 53);
+  margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
   .page-wrap {
     max-width: 900px;
     min-width: 500px;

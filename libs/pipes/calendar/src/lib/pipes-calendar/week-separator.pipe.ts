@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {Day} from "@angular-monorepo/models-calendar";
+import { IDay } from '@angular-monorepo/types-calendar';
 
 @Pipe({
   name: 'weekSeparator',
@@ -7,11 +7,11 @@ import {Day} from "@angular-monorepo/models-calendar";
 })
 export class WeekSeparatorPipe implements PipeTransform {
 
-  transform(calendarDaysArray: Day[], chunkSize: number): Day[][] {
-    const rowDays: Day[][] = [];
-    let weekDays: Day[] = [];
+  transform(calendarDaysArray: IDay[], chunkSize: number): IDay[][] {
+    const rowDays: IDay[][] = [];
+    let weekDays: IDay[] = [];
 
-    calendarDaysArray.map((day: Day, index: number) => {
+    calendarDaysArray.map((day: IDay, index: number) => {
       weekDays.push(day);
 
       if (++index % chunkSize  === 0) {

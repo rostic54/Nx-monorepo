@@ -46,10 +46,10 @@ import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calen
      @Input() eventDetails: IScheduledEvent | undefined;
      @Input() specificHour!: {hours: string};
      @Input() isDeletable!: IDeletePermissions;
-     @Output() submitFormValue: EventEmitter<ScheduledEvent> = new EventEmitter<ScheduledEvent>();
-     @Output() deleteItem: EventEmitter<number> = new EventEmitter<number>();
+     @Output() submitFormValue: EventEmitter<IScheduledEvent> = new EventEmitter<IScheduledEvent>();
+     @Output() deleteItem: EventEmitter<string> = new EventEmitter<string>();
      isDisabledSubmitBtn = true;
-     createdEvent!: ScheduledEvent | null;
+     createdEvent!: IScheduledEvent | null;
      lengthOfTitle = 50;
      private destroy$ = new Subject();
    
@@ -95,7 +95,7 @@ import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calen
        }
      }
    
-     setForm(values: ScheduledEvent): void {
+     setForm(values: IScheduledEvent): void {
        if (this.eventForm) {
          this.eventForm.patchValue({
            title: values.content,
@@ -113,9 +113,9 @@ import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calen
        this.isDisabledSubmitBtn = true;
        const formValue = this.eventForm.value;
        const [hours, minutes] = formValue.time.split(':');
-       const eventId: number = this.eventDetails?.id || this.createdEvent?.id || Date.now();
+       const eventId: string | undefined = this.eventDetails?.id || this.createdEvent?.id;
        const isEditable = this.eventDetails?.editable || this.createdEvent?.editable || false;
-       const newEvent = this.createEventFrom(hours, minutes, formValue.title, isEditable, eventId);
+       const newEvent = this.createEventFrom(hours, minutes, formValue.title, isEditable, eventId || '');
        this.submitFormValue.emit(newEvent);
        if(this._validSpecifiedHour) {
          this.eventForm.reset({title: '', time: this._validSpecifiedHour + ':00'});
@@ -136,8 +136,8 @@ import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calen
      formChangesListening(): void {
        this.eventForm?.valueChanges
          .pipe(
-           takeUntil(this.destroy$),
-           filter(value => Object.values(value).some(v => v))
+           filter(value => Object.values(value).some(v => v)),
+           takeUntil(this.destroy$)
          )
          .subscribe(value => {
            this.isDisabledSubmitBtn = !(value.title) || !value.time;
@@ -148,10 +148,10 @@ import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calen
          })
      }
    
-     private createNewEvent(hours: number, minutes = 0): ScheduledEvent {
+     private createNewEvent(hours: number, minutes = 0): IScheduledEvent {
        return scheduledEventFactory(createDateWithSpecifiedTime(this.date, hours, minutes));
      }
-     private createEventFrom(hours: number, minutes = 0, content: string, isEditable: boolean, id: number): ScheduledEvent {
+     private createEventFrom(hours: number, minutes = 0, content: string, isEditable: boolean, id: string): IScheduledEvent {
        return scheduledEventFactory(createDateWithSpecifiedTime(this.date, hours, minutes), content, isEditable, id);
      }
    }

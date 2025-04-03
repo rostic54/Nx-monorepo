@@ -1,21 +1,28 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <div class="page-wrap flex align-center center">
-    <div class="day-selector"
-         [ngClass]="{'active': isSelectionModeActive()}"
-         (click)="toggleSelectionMode()" (keyup)="toggleSelectionMode()">Set Important Day</div>
-    <div class="event-creator">Create Event</div>
-    <div class="calendar-wrap">
-      <lib-year
-        [currentYear]="currentDate().getFullYear()"
-        (yearBack)="setPreviousYear()"
-        (yearNext)="setNextYear()">
-      </lib-year>
-      <lib-month [activeMonth]="activeMonth()"
-                      [days]="days()"
-                      (setNextMonth)="setNextMonth()"
-                      (setPreviousMonth)="setPreviousMonth()"
-                      (updateStore)="updateDaysStore($event)">
-      </lib-month>
-    </div>
+  <div
+    class="day-selector"
+    [ngClass]="{ active: isSelectionModeActive() }"
+    (click)="toggleSelectionMode()"
+    (keyup)="toggleSelectionMode()"
+  >
+    Set Important Day
   </div>
-  
+  <div class="event-creator">Create Event</div>
+  <div class="calendar-wrap">
+    <lib-year
+      [currentYear]="currentDate().getFullYear()"
+      (yearBack)="setPreviousYear()"
+      (yearNext)="setNextYear()"
+    >
+    </lib-year>
+    <lib-month
+      [activeMonth]="activeMonth()"
+      [days]="days()"
+      (setNextMonth)="setNextMonth()"
+      (setPreviousMonth)="setPreviousMonth()"
+      (updateStore)="updateDaysStore($event)"
+    >
+    </lib-month>
+  </div>
+</div>

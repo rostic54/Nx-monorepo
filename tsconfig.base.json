@@ -22,6 +22,7 @@
         "libs/interceptors/atm/src/index.ts"
       ],
       "@angular-monorepo/catalog": ["apps/catalog/src/index.ts"],
+      "@angular-monorepo/config": ["libs/shared/config/src/index.ts"],
       "@angular-monorepo/constants": [
         "libs/core/calendar/constants/src/index.ts"
       ],
