@@ -5,12 +5,10 @@ import {
     OnInit,
     Output,
     Signal,
-    ViewContainerRef
 } from '@angular/core';
 import {WeekDays} from "@angular-monorepo/enums-calendar";
 import {WeekSeparatorPipe} from "@angular-monorepo/pipes-calendar";
-import {NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
-import {Day, ScheduledEvent} from "@angular-monorepo/models-calendar";
+import {DatePipe, NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {
     CdkDrag,
     CdkDragDrop,
@@ -21,7 +19,7 @@ import {
 } from "@angular/cdk/drag-drop";
 import {EventBriefInfoComponent} from "@angular-monorepo/ui";
 import {DateManagerService, NotificationService} from "@angular-monorepo/services-calendar";
-import {Router, ActivatedRoute} from "@angular/router";
+import {Router} from "@angular/router";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
@@ -60,7 +58,7 @@ import { IDay, IDragAndDropEventDetails, IScheduledEvent } from '@angular-monore
 })
 export class WeekRowsComponent implements OnInit {
 
-    @Input() days: IDay[] = [];
+    @Input() days: Signal<IDay[]>;
     @Output() dropDetails: EventEmitter<IDragAndDropEventDetails> = new EventEmitter<IDragAndDropEventDetails>();
 
     isSelectionModeActive!: Signal<boolean>;
@@ -80,6 +78,7 @@ export class WeekRowsComponent implements OnInit {
 
     constructor(private dateManagerService: DateManagerService,
                 private router: Router,
+                private datePipe: DatePipe,
                 private notificationService: NotificationService,
                 private dialog: MatDialog) {
     }
@@ -101,7 +100,7 @@ export class WeekRowsComponent implements OnInit {
                 event.currentIndex,
             );
             this.notificationService.openSnackBar('The appointment was postponed successfully.')
-            this.emitChangedDayValue(this.fromValue!, this.toValue!, event.container.data[0]);
+            this.emitChangedDayValue(this.fromValue!, this.toValue!, event.container.data[event.currentIndex]);
             this.clearFormAndDnD();
         }
     }
@@ -124,7 +123,11 @@ export class WeekRowsComponent implements OnInit {
     }
 
     openDayDetails() {
-        this.router.navigate(['day']);
+        const dateStringFormat = this.datePipe.transform(
+            this.dateManagerService.selectedDay().date,
+            'yyyy-MM-dd'
+          )
+        this.router.navigate([`day/${dateStringFormat}`]);
     }
 
     clearFormAndDnD() {

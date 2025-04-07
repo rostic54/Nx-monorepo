@@ -6,6 +6,7 @@ import {
 } from '@angular-monorepo/day-details-calendar';
 import { Routes } from '@angular/router';
 import { AgendaComponent } from '@angular-monorepo/agenda';
+import { currentDateInitResolver } from './current-date-init.resolver';
 
 export const appRoutes: Routes = [
   {
@@ -20,8 +21,11 @@ export const appRoutes: Routes = [
 
   },
   {
-    path: 'day',
+    path: 'day/:date',
     component: DayDetailsCalendarComponent,
+    resolve: {
+      currentDateInitResolver
+    },
     children: [
       { path: 'edit', component: GeneralDayInfoComponent },
       { path: 'create/:id', component: SpecificHourComponent },

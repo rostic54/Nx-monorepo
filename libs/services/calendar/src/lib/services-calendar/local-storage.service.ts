@@ -74,21 +74,15 @@ export class LocalStorageService {
     console.log('DAYS IN UPDATE STORE', days);
     console.log('CALENDAR STORE', calendarStore);
     days.forEach((day: IDay) => {
+      const dayMilliseconds= day.date.setHours(0, 0, 0, 0);
+
       if(!day.events.length) {
+        delete calendarStore[dayMilliseconds];
         return;
       }
-      day.date.setHours(0, 0, 0, 0);
-      // const searchableEvent = calendarStore[day.date.getTime()];
-      // if (searchableEvent) {
-      // //   if (day.events.length) {
-      // //     searchableEvent.events = [...day.events];
-      // //   } else {
-      // //     delete calendarStore[day.date.getTime()];
-      // //   }
-      // // } else {
-      // }
-      calendarStore[day.date.getTime()] = day;
+      calendarStore[dayMilliseconds] = day;
     });
+    
     this.calendarStoredData$.next(calendarStore);
   }
 

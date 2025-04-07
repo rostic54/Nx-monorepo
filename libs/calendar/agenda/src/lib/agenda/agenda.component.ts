@@ -59,7 +59,7 @@ export class AgendaComponent implements OnInit {
     }
 
     updateDaysStore(dropDetails: IDragAndDropEventDetails): void {
-      this.dateManagerService.updateRemoteAndLocalStorage(dropDetails);
+      this.dateManagerService.updateStoragesAfterDroppingEvent(dropDetails);
     }
 
     toggleSelectionMode(): void {

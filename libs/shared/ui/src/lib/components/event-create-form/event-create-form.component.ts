@@ -116,6 +116,7 @@ import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calen
        const eventId: string = this.eventDetails?.id || this.createdEvent?.id || Date.now().toString();
        const isEditable = this.eventDetails?.editable || this.createdEvent?.editable || false;
        const newEvent = this.createEventFrom(hours, minutes, formValue.title, isEditable, eventId);
+     
        this.submitFormValue.emit(newEvent);
        if(this._validSpecifiedHour) {
          this.eventForm.reset({title: '', time: this._validSpecifiedHour + ':00'});

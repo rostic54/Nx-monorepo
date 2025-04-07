@@ -15,3 +15,15 @@ export function createDateWithSpecifiedTime(date: Date, hours: number, minutes =
 export function getBeginningOfDayInMilliseconds(date: Date): number {
   return new Date(createDateInstance(date).setHours(0,0,0,0)).getTime();
 }
+
+export function mergeDateAndTime(newDate: Date, originalDateWithTime: Date): Date {
+  const merged = new Date(newDate); // clone to avoid mutation
+  const originalDate = new Date(originalDateWithTime); // clone to avoid mutation
+
+  merged.setHours(
+    originalDate.getHours(),
+    originalDate.getMinutes(),
+  );
+
+  return merged;
+}

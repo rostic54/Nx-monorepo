@@ -10,7 +10,7 @@
     </tr>
     </thead>
     <tbody cdkDropListGroup>
-    <tr *ngFor="let row of days | weekSeparator : 7; let i = index">
+    <tr *ngFor="let row of days() | weekSeparator : 7; let i = index">
         <td class="calendar-day"
             *ngFor="let cell of row; let j = index"
             [ngClass]="{

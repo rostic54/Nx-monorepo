@@ -1,5 +1,4 @@
 import {Day} from "@angular-monorepo/models-calendar";
-import {ScheduledEvent} from "@angular-monorepo/models-calendar";
 import { IDay, IScheduledEvent } from "@angular-monorepo/types-calendar";
 
 

@@ -14,8 +14,8 @@ export class HttpService {
     return this.http.get<T>(getApiConfig('development').baseUrl + url, {params});
   }
 
-  post<T>(url: string, data: T): Observable<T> {
-    return this.http.post<T>(getApiConfig('development').baseUrl + url, data);
+  post<T, J = T>(url: string, data: T): Observable<J> {
+    return this.http.post<J>(getApiConfig('development').baseUrl + url, data);
   }
 
   put<T, J>(url: string, data: T): Observable<J> {

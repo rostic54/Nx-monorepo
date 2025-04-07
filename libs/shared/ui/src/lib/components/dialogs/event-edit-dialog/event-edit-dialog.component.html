@@ -5,7 +5,7 @@
     [eventDetails]="appointment"
     [date]="appointment.currentDate"
     [isDeletable]="data.permissionDelete"
-    (submitFormValue)="updateEvent($event)"
+    (submitFormValue)="createOrUpdateEvent($event)"
     (deleteItem)="deleteEvent($event)"
   >
     <button mat-raised-button color="primary"
