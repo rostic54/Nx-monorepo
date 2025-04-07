@@ -4,12 +4,12 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {scheduledEventFactory} from "@angular-monorepo/factories-calendar";
 import { HttpService } from './http.service';
 import { HttpParams } from '@angular/common/http';
-import { IScheduledEvent, RequestScheduledEvent } from '@angular-monorepo/types-calendar';
+import { INewScheduledEvent, IScheduledEvent, RequestScheduledEvent } from '@angular-monorepo/types-calendar';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ScheduledEventService {
+export class ScheduledEventAPIService {
   private _selectedEventForEdit: BehaviorSubject<ScheduledEvent | null> = new BehaviorSubject<ScheduledEvent | null>(null)
 
   get selectedEvent(): Observable<ScheduledEvent | null> {
@@ -30,9 +30,9 @@ export class ScheduledEventService {
       .get('/appointments/byDate', params);
   }
 
-  addEvent(event: IScheduledEvent): Observable<IScheduledEvent> {
+  addEvent(event: INewScheduledEvent): Observable<IScheduledEvent> {
     return this.httpService
-      .post('/appointments', event);
+      .post<INewScheduledEvent, IScheduledEvent>('/appointments', event);
   }
 
   updateEventById(id: string, event: IScheduledEvent): Observable<IScheduledEvent> {

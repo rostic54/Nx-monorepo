@@ -29,6 +29,8 @@ export interface IScheduledEvent {
   get dateMinutes(): number;
 }
 
+export type INewScheduledEvent = Omit<IScheduledEvent, 'id'>; 
+
 export type RequestScheduledEvent = Omit<
   IScheduledEvent,
   'id' | 'requestDate' | 'dateMinutes'

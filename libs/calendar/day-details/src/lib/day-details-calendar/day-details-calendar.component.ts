@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   OnDestroy,
   OnInit,
   Signal,
@@ -13,19 +12,23 @@ import {
   CdkVirtualScrollViewport,
   ScrollingModule,
 } from '@angular/cdk/scrolling';
-import { Day, HoursModel } from '@angular-monorepo/models-calendar';
+import { HoursModel } from '@angular-monorepo/models-calendar';
 import { HOURS_IN_DAY } from '@angular-monorepo/constants';
 import { ScheduledEvent } from '@angular-monorepo/models-calendar';
 import { DatePipe, NgFor } from '@angular/common';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { filter, Subject } from 'rxjs';
-import { ScheduledEventService } from '@angular-monorepo/services-calendar';
+import { ScheduledEventAPIService } from '@angular-monorepo/services-calendar';
 import { scheduledEventFactory } from '@angular-monorepo/factories-calendar';
 import { createDateWithSpecifiedTime } from '@angular-monorepo/utils-calendar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EventEditDialogComponent } from '@angular-monorepo/ui';
-import { IDay, IDeletePermissions, IScheduledEvent } from '@angular-monorepo/types-calendar';
+import {
+  IDay,
+  IDeletePermissions,
+  IScheduledEvent,
+} from '@angular-monorepo/types-calendar';
 import {
   CdkDrag,
   CdkDragDrop,
@@ -64,14 +67,18 @@ const dragAndDrop = [
     RouterOutlet,
     MatDialogModule,
   ],
-  providers: [ScheduledEventService],
+  providers: [ScheduledEventAPIService],
   templateUrl: './day-details-calendar.component.html',
-  styleUrl: './day-details-calendar.component.scss'
+  styleUrl: './day-details-calendar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DayDetailsCalendarComponent implements OnDestroy {
+export class DayDetailsCalendarComponent implements OnInit, OnDestroy {
   hours: HoursModel[] = [];
   connectedTo: string[] = [];
-  selectedDay: IDay;
+  selectedDay: Signal<IDay> = computed(() => {
+    this.buildHours(this.dateManagerService.selectedDay().events);
+    return this.dateManagerService.selectedDay();
+  });;
   isDeletable: IDeletePermissions = { isAllowed: true };
   private onDestroy$ = new Subject();
 
@@ -81,19 +88,17 @@ export class DayDetailsCalendarComponent implements OnDestroy {
     private route: ActivatedRoute,
     private notificationService: NotificationService,
     private dialog: MatDialog
-  ) {
-    effect(() => {
-      if (this.dateManagerService.selectedDay()) {
-        this.selectedDay = this.dateManagerService.selectedDay();
-        // console.log('SELECTD DAY IN DAY DETAILS', this.selectedDay);
-        this.buildHours(this.dateManagerService.selectedDay().events);
-      }
-    });
-  }
+  ) {}
 
   ngOnDestroy() {
     this.onDestroy$.next(null);
     this.onDestroy$.complete();
+  }
+
+  ngOnInit(): void {
+    if (this.dateManagerService.selectedDay()) {
+      // this.selectedDay = 
+    }
   }
 
   buildHours(dayEvents: IScheduledEvent[]) {

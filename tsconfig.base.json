@@ -21,6 +21,9 @@
       "@angular-monorepo/atm-interceptors": [
         "libs/interceptors/atm/src/index.ts"
       ],
+      "@angular-monorepo/calendar-resolvers": [
+        "libs/resolvers/resolvers/calendar-resolvers/src/index.ts"
+      ],
       "@angular-monorepo/catalog": ["apps/catalog/src/index.ts"],
       "@angular-monorepo/config": ["libs/shared/config/src/index.ts"],
       "@angular-monorepo/constants": [

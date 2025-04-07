@@ -6,19 +6,27 @@ import {
   createDateInstance,
   createDateWithSpecifiedMonthDay,
   daysInMonth,
+  mergeDateAndTime,
 } from '@angular-monorepo/utils-calendar';
 import { DAYS_IN_MONTH_VIEW } from '@angular-monorepo/constants';
 import { Month } from '@angular-monorepo/models-calendar';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { DayFactory } from '@angular-monorepo/factories-calendar';
 import { DatePipe } from '@angular/common';
-import { ScheduledEventService } from './scheduled-event.service';
+import { ScheduledEventAPIService } from './scheduled-event.service';
 import {
   IDay,
   IDragAndDropEventDetails,
+  INewScheduledEvent,
   IScheduledEvent,
 } from '@angular-monorepo/types-calendar';
 import { NotificationService } from './notification.service';
+
+// TODO: Next Steps: 
+// 1. Add Delete request (Local & Remote)
+// 2. Add User Authorization page (SignIn, SignUp)
+// 3. Make optimization by using available events from local storage
+// 4. Add refresh local storage (Maybe add refresh button and keep version for user)
 
 @Injectable({
   providedIn: 'root',
@@ -31,9 +39,7 @@ export class DateManagerService {
   private _activeMonth = signal<Month>(new Month(this._currentDate()));
   private _selectedDay = signal<IDay>(new Day(new Date(), []));
   private _daySelectionMode = signal<boolean>(false);
-  // getSelectedDay$: BehaviorSubject<Day> = new BehaviorSubject(
-  //   new Day(new Date(), [])
-  // );
+
   selectedDayIndex!: number;
 
   get currentDate(): Signal<Date> {
@@ -57,7 +63,7 @@ export class DateManagerService {
   }
 
   constructor(
-    private scheduledEventService: ScheduledEventService,
+    private scheduledEventAPIService: ScheduledEventAPIService,
     private notificationService: NotificationService,
     private datePipe: DatePipe
   ) {
@@ -65,8 +71,7 @@ export class DateManagerService {
       this.LAST_VIEWED_DATE
     );
     if (storedDate.length) {
-      const date = new Date(JSON.parse(storedDate));
-      this._currentDate.set(date);
+      this.initCurrentDate(storedDate);
     }
     this.setAppropriateMonth(this._currentDate());
     effect(() => {
@@ -86,7 +91,6 @@ export class DateManagerService {
   setSelectedDay(index: number): void {
     const selectedDay = this.getSelectedDayByIndex(index);
     this._selectedDay.set(selectedDay);
-    // console.log('SELECTED DAY', selectedDay, this.selectedDay());
   }
 
   toggleSelectionMode(): void {
@@ -147,61 +151,74 @@ export class DateManagerService {
   }
 
   //////////////////////////////////////////////////////////////////////////////////
-  // *  REQUESTS                                                                 *//
+  // *  ACTIONS
+  //////////////////////////////////////////////////////////////////////////////////
+  setSelectedDayFromTemplate(day: IDay): void {
+    this._selectedDay.set(day);
+  }
+
+  createOrUpdateScheduledEvent(eventDetails: IScheduledEvent): void {
+    if (eventDetails.id.length > 0) {
+      this.updateScheduledEvent(eventDetails);
+    } else {
+      const { id, ...rest } = eventDetails;
+      const newEvent: INewScheduledEvent = { ...rest };
+      this.createEventForParticularDate(newEvent);
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////
+  // *  REQUESTS
   //////////////////////////////////////////////////////////////////////////////////
 
-  updateRemoteAndLocalStorage(dropDetails: IDragAndDropEventDetails): void {
+  updateStoragesAfterDroppingEvent(
+    dropDetails: IDragAndDropEventDetails
+  ): void {
     // TODO: Update date in DB
     const { fromDay, toDay } = dropDetails;
-    const { id, content, editable } = dropDetails.eventDetails;
+    const { id, content, editable, currentDate } = dropDetails.eventDetails;
+
     const scheduledEvent = new ScheduledEvent(
-      toDay.date,
+      mergeDateAndTime(toDay.date, currentDate),
       content,
       editable,
       id
     );
-    this.scheduledEventService
+    this.scheduledEventAPIService
       .updateEventById(dropDetails.eventDetails.id, scheduledEvent)
       .subscribe((event) => {
         this.updateEventListForSelectedDay(event);
         this.updateEventsInCurrentMonth(event);
-        console.log('MONTH DAYS AFTER DROPING ON MONTH: ', this._monthDays())
         this.updateDaysInLocalStore([fromDay, toDay]);
       });
   }
 
-  private getAppointmentsForPeriod(periods: Day[]): void {
-    // console.log('INSIDE GET EVENTS', periods);
-
-    const fromDate = periods[0].date.toISOString();
-    const toDate = periods[periods.length - 1].date.toISOString();
-
-    this.scheduledEventService
-      .getEventsFromPeriod(fromDate, toDate)
-      .subscribe((appointments: IScheduledEvent[]) => {
-        this._monthDays.update(() => {
-          return periods.map((day) => {
-            day.events = appointments.filter((appointment) =>
-              this.compareDates(appointment.currentDate, day.date)
-            );
-            return day;
-          });
-        });
-        this.updateDaysInLocalStore(this._monthDays());
-      });
-  }
-
-  createEventForParticularDate(event: IScheduledEvent): void {
-    this.scheduledEventService.addEvent(event).subscribe((event) => {
+  createEventForParticularDate(event: INewScheduledEvent): void {
+    this.scheduledEventAPIService.addEvent(event).subscribe((event) => {
       this.updateEventListForSelectedDay(event);
       this.updateEventsInCurrentMonth(event);
-      this.updateStore();
+      this.updateStoreWithDayCreation();
     });
   }
 
+  getEventsForSelectedDay(
+    fromDate: Date,
+    toDate: Date
+  ): Observable<IScheduledEvent[]> {
+    return this.scheduledEventAPIService
+      .getEventsFromPeriod(fromDate.toISOString(), toDate.toISOString())
+      .pipe(
+        tap((events: IScheduledEvent[]) => {
+          this._currentDate.set(fromDate);
+          const dayTemplate = DayFactory(fromDate, events);
+          this._selectedDay.set(dayTemplate);
+          // this.initCurrentDate(date);
+        })
+      );
+  }
+
   updateScheduledEvent(event: IScheduledEvent): void {
-    console.log(event);
-    this.scheduledEventService
+    this.scheduledEventAPIService
       .updateEventById(event.id, event)
       .pipe(
         catchError((err) => {
@@ -212,25 +229,9 @@ export class DateManagerService {
       .subscribe((event) => {
         this.updateEventListForSelectedDay(event);
         this.updateEventsInCurrentMonth(event);
-        this.updateStore();
-        console.log('MONTH DAYS: ', this._monthDays());
+        this.updateStoreWithDayCreation();
         this.showNotification('The appointment was rescheduled successfully');
       });
-  }
-
-  updateEventListForSelectedDay(event: IScheduledEvent): void {
-    // const indexOfExistedEvent = this.findIndexEventForCurrentTime(event.id);
-    const eventsList = this.selectedDay().events.filter(
-      (ev: IScheduledEvent) => ev.id !== event.id
-    );
-    this._selectedDay.set(
-      this.createDayInstance(
-        this._selectedDay().date,
-        [...eventsList, event],
-        this._selectedDay().isCurrentMonth,
-        this._selectedDay().markedAsImportant
-      )
-    );
   }
 
   deleteEventFromStore(eventId: string): Observable<boolean> {
@@ -238,7 +239,7 @@ export class DateManagerService {
     return new Observable((subscriber) => {
       if (indexOfExistedEvent > -1) {
         this.selectedDay().events.splice(indexOfExistedEvent, 1);
-        this.updateStore();
+        this.updateStoreWithDayCreation();
         //this.getSelectedDay$.next(this._selectedDay());
         subscriber.next(true);
       }
@@ -254,11 +255,32 @@ export class DateManagerService {
   setDayAsImportant(): void {
     // Sending updated data to server
     this.selectedDay().markedAsImportant = true;
-    this.updateStore();
+    this.updateStoreWithDayCreation();
+  }
+
+  private getAppointmentsForPeriod(periods: Day[]): void {
+    // console.log('INSIDE GET EVENTS', periods);
+
+    const fromDate = periods[0].date.toISOString();
+    const toDate = periods[periods.length - 1].date.toISOString();
+
+    this.scheduledEventAPIService
+      .getEventsFromPeriod(fromDate, toDate)
+      .subscribe((appointments: IScheduledEvent[]) => {
+        this._monthDays.update(() => {
+          return periods.map((day) => {
+            day.events = appointments.filter((appointment) =>
+              this.compareDates(appointment.currentDate, day.date)
+            );
+            return day;
+          });
+        });
+        this.updateDaysInLocalStore(this._monthDays());
+      });
   }
 
   //////////////////////////////////////////////////////////////////////////////////
-  // *  LOCAL STORAGE                                                            *//
+  // *  LOCAL STORAGE
   //////////////////////////////////////////////////////////////////////////////////
 
   private setActiveDateToStorage(currentDate: Date): void {
@@ -272,7 +294,7 @@ export class DateManagerService {
     this.storageService.updateStore(days);
   }
 
-  private updateStore() {
+  private updateStoreWithDayCreation() {
     const { date, events, isCurrentMonth, markedAsImportant } =
       this.selectedDay();
     const dayModel: IDay = this.createDayInstance(
@@ -293,15 +315,13 @@ export class DateManagerService {
     );
     const storedEventsStr = this.storageService.getCalendarEvents() || null;
     if (storedEventsStr) {
-      const storedEvents = storedEventsStr;
-      const eventsForDay = storedEvents[resetDateHours] || [];
-      return eventsForDay.events || [];
+      return storedEventsStr[resetDateHours]?.events || [];
     }
     return [];
   }
 
   //////////////////////////////////////////////////////////////////////////////////
-  // *  HELPERS                                                                  *//
+  // *  HELPERS
   //////////////////////////////////////////////////////////////////////////////////
 
   private compareDates(dateString: Date, dateObject: Date): boolean {
@@ -315,6 +335,11 @@ export class DateManagerService {
       'yyyy-MM-dd'
     );
     return formattedDateString === formattedDateObject;
+  }
+
+  initCurrentDate(currentDate: string): void {
+    const date = new Date(JSON.parse(currentDate));
+    this._currentDate.set(date);
   }
 
   private setAppropriateMonth(date: Date): void {
@@ -337,6 +362,20 @@ export class DateManagerService {
     monthContainer.push(this.createDayInstance(day, events, isCurrentMonth));
   }
 
+  private updateEventListForSelectedDay(event: IScheduledEvent): void {
+    const eventsList = this.selectedDay().events.filter(
+      (ev: IScheduledEvent) => ev.id !== event.id
+    );
+    this._selectedDay.set(
+      this.createDayInstance(
+        this._selectedDay().date,
+        [...eventsList, event],
+        this._selectedDay().isCurrentMonth,
+        this._selectedDay().markedAsImportant
+      )
+    );
+  }
+
   private findIndexEventForCurrentTime(eventId: string): number {
     return this.selectedDay().events.findIndex((ev) => ev.id === eventId);
   }
@@ -355,17 +394,23 @@ export class DateManagerService {
   }
 
   private updateEventsInCurrentMonth(event: IScheduledEvent) {
-    this._monthDays.update((monthDays) =>
-      monthDays.map((day: IDay) => {
-        if (day.date === event.currentDate) {
+    this._monthDays.update((monthDays) => {
+      const res = monthDays.map((day: IDay) => {
+        if (this.compareDates(day.date, event.currentDate)) {
           const eventsList: IScheduledEvent[] = day.events.filter(
             (dayEvent: IScheduledEvent) => dayEvent.id !== event.id
           );
-          return <Day>{ ...day, events: [...eventsList, event] };
+          return DayFactory(
+            day.date,
+            [...eventsList, event],
+            day.isCurrentMonth,
+            day.markedAsImportant
+          );
         } else {
           return day;
         }
-      })
-    );
+      });
+      return res;
+    });
   }
 }

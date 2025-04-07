@@ -26,7 +26,7 @@ It took about 9 hours to complete from the scratch.
 ## Generate library 
 
 ```sh
-npx nx g @nx/angular:library libs/services/calendar --standalone
+npx nx g @nx/angular:library libs/FOLDER_NAME/LIB_NAME --standalone
 ```
 
 
