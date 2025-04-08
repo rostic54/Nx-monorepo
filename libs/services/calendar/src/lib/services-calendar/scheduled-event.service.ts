@@ -39,4 +39,9 @@ export class ScheduledEventAPIService {
     return this.httpService
       .put<RequestScheduledEvent, IScheduledEvent>(`/appointments/${id}`, event.requestDate);
   }
+
+  deleteEventById(id: string): Observable<boolean> {
+    return this.httpService
+      .delete(`/appointments/${id}`);
+  }
 }
