@@ -235,17 +235,16 @@ export class DateManagerService {
   }
 
   deleteEventFromStore(eventId: string): Observable<boolean> {
-    const indexOfExistedEvent = this.findIndexEventForCurrentTime(eventId);
-    return new Observable((subscriber) => {
-      if (indexOfExistedEvent > -1) {
-        this.selectedDay().events.splice(indexOfExistedEvent, 1);
+    const deletedEvent = this.selectedDay().events.find((ev) => ev.id === eventId);
+    return this.scheduledEventAPIService.deleteEventById(eventId).pipe(
+      tap((isDeleted: boolean) => {
+      if (deletedEvent && isDeleted) {
+        this.updateEventListForSelectedDay(deletedEvent, true);
+        this.updateEventsInCurrentMonth(deletedEvent, true);
         this.updateStoreWithDayCreation();
-        //this.getSelectedDay$.next(this._selectedDay());
-        subscriber.next(true);
       }
-      subscriber.next(false);
-      subscriber.complete();
-    });
+     
+    }));
   }
 
   getDetailsForImportantDate(): Date {
@@ -362,22 +361,20 @@ export class DateManagerService {
     monthContainer.push(this.createDayInstance(day, events, isCurrentMonth));
   }
 
-  private updateEventListForSelectedDay(event: IScheduledEvent): void {
+  private updateEventListForSelectedDay(event: IScheduledEvent, isDeleted = false): void {
     const eventsList = this.selectedDay().events.filter(
       (ev: IScheduledEvent) => ev.id !== event.id
     );
+    const updatedEventsList = isDeleted ? [...eventsList] : [...eventsList, event];
+
     this._selectedDay.set(
       this.createDayInstance(
         this._selectedDay().date,
-        [...eventsList, event],
+        updatedEventsList,
         this._selectedDay().isCurrentMonth,
         this._selectedDay().markedAsImportant
       )
     );
-  }
-
-  private findIndexEventForCurrentTime(eventId: string): number {
-    return this.selectedDay().events.findIndex((ev) => ev.id === eventId);
   }
 
   private createDayInstance(
@@ -393,16 +390,18 @@ export class DateManagerService {
     this.notificationService.openSnackBar(content);
   }
 
-  private updateEventsInCurrentMonth(event: IScheduledEvent) {
+  private updateEventsInCurrentMonth(event: IScheduledEvent, isDeleted = false): void {
     this._monthDays.update((monthDays) => {
       const res = monthDays.map((day: IDay) => {
         if (this.compareDates(day.date, event.currentDate)) {
           const eventsList: IScheduledEvent[] = day.events.filter(
             (dayEvent: IScheduledEvent) => dayEvent.id !== event.id
           );
+          const updatedEventsList = isDeleted ? [...eventsList] : [...eventsList, event];
+
           return DayFactory(
             day.date,
-            [...eventsList, event],
+            updatedEventsList,
             day.isCurrentMonth,
             day.markedAsImportant
           );

@@ -21,5 +21,9 @@ export class HttpService {
   put<T, J>(url: string, data: T): Observable<J> {
     return this.http.put<J>(getApiConfig('development').baseUrl + url, data);
   }
+
+  delete<T>(url: string): Observable<T> {
+    return this.http.delete<T>(getApiConfig('development').baseUrl + url);
+  }
 }
 

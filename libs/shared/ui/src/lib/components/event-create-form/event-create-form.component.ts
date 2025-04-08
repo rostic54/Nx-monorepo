@@ -113,7 +113,7 @@ import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calen
        this.isDisabledSubmitBtn = true;
        const formValue = this.eventForm.value;
        const [hours, minutes] = formValue.time.split(':');
-       const eventId: string = this.eventDetails?.id || this.createdEvent?.id || Date.now().toString();
+       const eventId: string = this.eventDetails?.id || this.createdEvent?.id || '';
        const isEditable = this.eventDetails?.editable || this.createdEvent?.editable || false;
        const newEvent = this.createEventFrom(hours, minutes, formValue.title, isEditable, eventId);
      
