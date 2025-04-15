@@ -1,5 +1,4 @@
 import { DashboardComponent } from '@angular-monorepo/dashboard';
-import { authGuard } from '@angular-monorepo/atm-guards';
 import { Route } from '@angular/router';
 import { PincodeComponent } from '@angular-monorepo/pincode';
 
@@ -21,5 +20,6 @@ export const appRoutes: Route[] = [
         // canActivate: [authGuard],
         component: DashboardComponent
         // loadComponent: () => import('@angular-monorepo/dashboard').then(m => m.DashboardComponent)
-    },
+    }
+
 ];

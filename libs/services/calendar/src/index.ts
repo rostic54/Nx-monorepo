@@ -3,3 +3,7 @@ export * from './lib/services-calendar/local-storage.service';
 export * from './lib/services-calendar/notification.service';
 export * from './lib/services-calendar/remote-storage.service';
 export * from './lib/services-calendar/scheduled-event.service';
+export * from './lib/services-calendar/session.service';
+export * from './lib/services-calendar/auth.service';
+export * from './lib/services-calendar/http.service';
+export * from './lib/services-calendar/user-api.service';

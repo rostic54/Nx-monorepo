@@ -58,6 +58,7 @@
 
 html, body {
   height: 100%;
-  background-image: url("/assets/images/img_1.png");
+  // background-image: url("/assets/images/img_1.png"); - This may be a solution for Catalog serving
+  background-image: url("/calendar/assets/images/img_1.png"); // This for running Calendar serve only
   background-repeat: repeat;
 }

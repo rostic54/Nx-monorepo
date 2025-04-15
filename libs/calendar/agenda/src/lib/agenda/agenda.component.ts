@@ -4,65 +4,68 @@ import { MonthComponent } from './components/month/month.component';
 import { YearComponent } from './components/year/year.component';
 import { DateManagerService } from '@angular-monorepo/services-calendar';
 import { Month } from '@angular-monorepo/models-calendar';
-import { IDay, IDragAndDropEventDetails } from '@angular-monorepo/types-calendar';
-
+import {
+  IDay,
+  IDragAndDropEventDetails,
+} from '@angular-monorepo/types-calendar';
 
 @Component({
   selector: 'lib-agenda',
   standalone: true,
-  imports: [
-      MonthComponent,
-      YearComponent,
-      NgClass,
-      CommonModule
-    ],
-    providers: [DatePipe],
+  imports: [MonthComponent, YearComponent, NgClass, CommonModule],
+  providers: [DatePipe],
   templateUrl: './agenda.component.html',
   styleUrl: './agenda.component.scss',
 })
 export class AgendaComponent implements OnInit {
   currentDate!: Signal<Date>;
-    days!: Signal<IDay[]>;
-    activeMonth!: Signal<Month>;
-    isSelectionModeActive!: Signal<boolean>;
+  days!: Signal<IDay[]>;
+  activeMonth!: Signal<Month>;
+  isSelectionModeActive!: Signal<boolean>;
 
-    constructor(private dateManagerService: DateManagerService) {
-    }
+  constructor(private dateManagerService: DateManagerService) {}
 
-    ngOnInit() {
-      this.currentDate = this.dateManagerService.currentDate;
-      this.activeMonth = this.dateManagerService.activeMonth;
-      this.days = this.dateManagerService.days;
-      this.isSelectionModeActive = this.dateManagerService.isSelectionModeActive;
-    }
+  ngOnInit() {
+    this.currentDate = this.dateManagerService.currentDate;
+    this.activeMonth = this.dateManagerService.activeMonth;
+    this.days = this.dateManagerService.days;
+    console.log(this.currentDate());
+    console.log(this.activeMonth());
+    console.log(this.days());
+    this.isSelectionModeActive = this.dateManagerService.isSelectionModeActive;
+    this.changeDate(0, 0, true);
+  }
 
-    private changeDate(yearOffset = 0, monthOffset = 0): void {
-      const currentYear = this.currentDate().getFullYear();
-      const currentMonth = this.activeMonth().currentMonth;
-      this.dateManagerService.changeDate(new Date(currentYear + yearOffset, currentMonth + monthOffset));
-    }
+  private changeDate(yearOffset = 0, monthOffset = 0, init?: boolean): void {
+    const currentYear = this.currentDate().getFullYear();
+    const currentMonth = this.activeMonth().currentMonth;
+    this.dateManagerService.changeDate(
+      new Date(currentYear + yearOffset, currentMonth + monthOffset),
+      init
+    );
+  }
 
-    setPreviousYear(): void {
-      this.changeDate(-1, 0);
-    }
+  setPreviousYear(): void {
+    this.changeDate(-1, 0);
+  }
 
-    setNextYear(): void {
-      this.changeDate(1, 0);
-    }
+  setNextYear(): void {
+    this.changeDate(1, 0);
+  }
 
-    setNextMonth(): void {
-      this.changeDate(0, 1);
-    }
+  setNextMonth(): void {
+    this.changeDate(0, 1);
+  }
 
-    setPreviousMonth(): void {
-      this.changeDate(0, -1);
-    }
+  setPreviousMonth(): void {
+    this.changeDate(0, -1);
+  }
 
-    updateDaysStore(dropDetails: IDragAndDropEventDetails): void {
-      this.dateManagerService.updateStoragesAfterDroppingEvent(dropDetails);
-    }
+  updateDaysStore(dropDetails: IDragAndDropEventDetails): void {
+    this.dateManagerService.updateStoragesAfterDroppingEvent(dropDetails);
+  }
 
-    toggleSelectionMode(): void {
-      this.dateManagerService.toggleSelectionMode();
-    }
+  toggleSelectionMode(): void {
+    this.dateManagerService.toggleSelectionMode();
+  }
 }

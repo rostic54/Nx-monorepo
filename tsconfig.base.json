@@ -21,6 +21,7 @@
       "@angular-monorepo/atm-interceptors": [
         "libs/interceptors/atm/src/index.ts"
       ],
+      "@angular-monorepo/auth-guard": ["libs/guards/calendar/src/index.ts"],
       "@angular-monorepo/calendar-resolvers": [
         "libs/resolvers/resolvers/calendar-resolvers/src/index.ts"
       ],
@@ -50,6 +51,7 @@
       "@angular-monorepo/services-calendar": [
         "libs/services/calendar/src/index.ts"
       ],
+      "@angular-monorepo/auth": ["libs/calendar/auth/src/index.ts"],
       "@angular-monorepo/types-calendar": ["libs/types/calendar/src/index.ts"],
       "@angular-monorepo/ui": ["libs/shared/ui/src/index.ts"],
       "@angular-monorepo/utils-calendar": ["libs/utils/calendar/src/index.ts"]
