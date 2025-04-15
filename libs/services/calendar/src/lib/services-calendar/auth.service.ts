@@ -4,9 +4,8 @@ import {
   ILoginResponse,
   ILoginUser,
   IRegisterUser,
-  IUserInfo,
 } from '@angular-monorepo/types-calendar';
-import { map, Observable, switchMap, take, tap } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { UserAPIService } from './user-api.service';
 import { SessionService } from './session.service';
 

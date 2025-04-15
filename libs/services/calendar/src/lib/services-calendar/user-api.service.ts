@@ -8,14 +8,10 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserAPIService {
-  private user: any = null;
-
   constructor(
     private httpService: HttpService,
     private sessionService: SessionService
   ) {}
-
-  setUser(user: any): void {}
 
   getUser(): Observable<IUserInfo> {
     return this.httpService.get<IUserInfo>('/users/profile', true).pipe(
@@ -24,9 +20,5 @@ export class UserAPIService {
         return response;
       })
     );
-  }
-
-  clearUser(): void {
-    this.user = null;
   }
 }
