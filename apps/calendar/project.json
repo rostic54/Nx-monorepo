@@ -18,9 +18,15 @@
         "inlineStyleLanguage": "scss",
         "baseHref": "/calendar/",
         "assets": [
+          "apps/calendar/src/assets",
           {
             "glob": "**/*",
-            "input": "apps/calendar/public"
+            "input": "apps/catalog/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/shared/ui/src/assets/images",
+            "output": "assets/images"
           }
         ],
         "styles": [
@@ -29,7 +35,7 @@
           "libs/shared/styles/calendar/_variables.scss",
           "libs/shared/styles/calendar/_global.scss"
         ],
-     
+
         "scripts": [],
         "customWebpackConfig": {
           "path": "apps/calendar/webpack.config.ts"
@@ -78,7 +84,7 @@
       },
       "defaultConfiguration": "development",
       "options": {
-        "publicHost": "http://localhost:4202", 
+        "publicHost": "http://localhost:4202",
         "port": 4202
       }
     },
@@ -103,7 +109,7 @@
       "options": {
         "buildTarget": "calendar:build",
         "port": 4202,
-      
+
         "spa": true
       }
     }

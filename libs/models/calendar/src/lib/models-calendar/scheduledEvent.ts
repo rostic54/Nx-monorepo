@@ -5,6 +5,9 @@ export class ScheduledEvent implements IScheduledEvent {
   id: string;
   currentDate: Date;
   content: string;
+  otherAttendees: number;
+  ownerId: string;
+  attendees: string[];
   editable: boolean;
 
   constructor(date: Date, content: string, editable = false, id: string) {
@@ -12,6 +15,7 @@ export class ScheduledEvent implements IScheduledEvent {
     this.currentDate = date;
     this.content = content;
     this.editable = editable;
+    this.ownerId = id;
   }
 
   get year(): number {
@@ -52,7 +56,10 @@ export class ScheduledEvent implements IScheduledEvent {
     return {
       currentDate: this.currentDate,
       content: this.content,
-      editable: this.editable
+      editable: this.editable,
+      ownerId: this.ownerId,
+      otherAttendees: this.otherAttendees,
+      attendees: this.attendees,
     }
   }
 

@@ -7,23 +7,39 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class HttpService {
+  private readonly baseUrl = getApiConfig('development').baseUrl;
   constructor(private http: HttpClient) {}
 
-  get<T>(url: string, params?: HttpParams): Observable<T> {
-    console.log('GET URL:', getApiConfig('development').baseUrl + url);
-    return this.http.get<T>(getApiConfig('development').baseUrl + url, {params});
+  get<T>(
+    url: string,
+    withCredentials = true,
+    params?: HttpParams
+  ): Observable<T> {
+    return this.http.get<T>(this.baseUrl + url, {
+      params,
+      withCredentials: withCredentials,
+    });
   }
 
-  post<T, J = T>(url: string, data: T): Observable<J> {
-    return this.http.post<J>(getApiConfig('development').baseUrl + url, data);
+  post<T, J = T>(url: string, data: T, withCredentials = true): Observable<J> {
+    const options = {
+      withCredentials: withCredentials,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    return this.http.post<J>(
+      this.baseUrl + url,
+      data,
+      options
+    );
   }
 
   put<T, J>(url: string, data: T): Observable<J> {
-    return this.http.put<J>(getApiConfig('development').baseUrl + url, data);
+    return this.http.put<J>(this.baseUrl + url, data, {withCredentials: true});
   }
 
   delete<T>(url: string): Observable<T> {
-    return this.http.delete<T>(getApiConfig('development').baseUrl + url);
+    return this.http.delete<T>(this.baseUrl + url, {withCredentials: true});
   }
 }
-

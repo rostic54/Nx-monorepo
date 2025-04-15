@@ -23,10 +23,9 @@ import {
 import { NotificationService } from './notification.service';
 
 // TODO: Next Steps: 
-// 1. Add Delete request (Local & Remote)
-// 2. Add User Authorization page (SignIn, SignUp)
-// 3. Make optimization by using available events from local storage
-// 4. Add refresh local storage (Maybe add refresh button and keep version for user)
+// - Add User Authorization page (SignIn, SignUp)
+// - Make optimization by using available events from local storage
+// - Add refresh local storage (Maybe add refresh button and keep version for user)
 
 @Injectable({
   providedIn: 'root',
@@ -81,8 +80,9 @@ export class DateManagerService {
     });
   }
 
-  changeDate(date: Date): void {
-    if (this.isNotEqualToCurrentDate(date)) {
+  changeDate(date: Date, init = false): void {
+    console.log('CHANGE DAY INIT:', init);
+    if (this.isNotEqualToCurrentDate(date) || init) {
       this._currentDate.set(date);
       this.setAppropriateMonth(date);
     }
@@ -258,8 +258,6 @@ export class DateManagerService {
   }
 
   private getAppointmentsForPeriod(periods: Day[]): void {
-    // console.log('INSIDE GET EVENTS', periods);
-
     const fromDate = periods[0].date.toISOString();
     const toDate = periods[periods.length - 1].date.toISOString();
 

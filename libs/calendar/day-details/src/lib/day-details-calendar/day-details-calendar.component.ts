@@ -78,7 +78,7 @@ export class DayDetailsCalendarComponent implements OnInit, OnDestroy {
   selectedDay: Signal<IDay> = computed(() => {
     this.buildHours(this.dateManagerService.selectedDay().events);
     return this.dateManagerService.selectedDay();
-  });;
+  });
   isDeletable: IDeletePermissions = { isAllowed: true };
   private onDestroy$ = new Subject();
 

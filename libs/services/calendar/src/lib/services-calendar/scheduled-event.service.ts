@@ -27,12 +27,17 @@ export class ScheduledEventAPIService {
     const params = new HttpParams({ fromObject: { fromDate, toDate } });
 
     return this.httpService
-      .get('/appointments/byDate', params);
+      .get('/appointments/byDate', true, params);
   }
 
   addEvent(event: INewScheduledEvent): Observable<IScheduledEvent> {
     return this.httpService
       .post<INewScheduledEvent, IScheduledEvent>('/appointments', event);
+  }
+
+  getEventDetails(id: string): Observable<IScheduledEvent> {
+    return this.httpService
+      .get<IScheduledEvent>(`/appointments/${id}`);
   }
 
   updateEventById(id: string, event: IScheduledEvent): Observable<IScheduledEvent> {

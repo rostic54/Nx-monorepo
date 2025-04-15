@@ -21,9 +21,12 @@ export interface IDeletePermissions {
 
 export interface IScheduledEvent {
   id: string;
+  ownerId: string;
   currentDate: Date;
   content: string;
   editable: boolean;
+  attendees: string[];
+  otherAttendees: number;
   preciseTime?: string;
   get requestDate(): RequestScheduledEvent;
   get dateMinutes(): number;
@@ -40,4 +43,24 @@ export interface IDragAndDropEventDetails {
   fromDay: IDay;
   toDay: IDay;
   eventDetails: IScheduledEvent;
+}
+
+export interface IUserInfo {
+  id: string;
+  userName: string;
+  email: string;
+  avatarUrl: string;
+}
+
+export interface ILoginUser {
+  email: string;
+  password: string;
+}
+
+export interface IRegisterUser extends ILoginUser {
+  userName: string;
+}
+
+export interface ILoginResponse {
+  message: string;
 }

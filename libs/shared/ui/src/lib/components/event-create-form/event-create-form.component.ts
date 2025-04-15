@@ -24,6 +24,7 @@ import {createDateWithSpecifiedTime} from "@angular-monorepo/utils-calendar";
 import {filter, Subject, takeUntil} from "rxjs";
 import {NgIf} from "@angular/common";
 import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calendar";
+import { SessionService } from '@angular-monorepo/services-calendar';
 
 @Component({
   selector: 'lib-event-create-form',
@@ -33,6 +34,7 @@ import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calen
     MatFormField,
     MatInput,
     MatLabel,
+  
     ReactiveFormsModule,
     NgIf
   ],
@@ -57,7 +59,8 @@ import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calen
      private _validSpecifiedHour!: string;
    
      constructor(
-       private fb: FormBuilder) {
+       private fb: FormBuilder,
+       private sessionService: SessionService) {
      }
    
      get formControlsTitle(): {[key: string]: AbstractControl<string>} {
@@ -116,7 +119,7 @@ import {IDeletePermissions, IScheduledEvent} from "@angular-monorepo/types-calen
        const eventId: string = this.eventDetails?.id || this.createdEvent?.id || '';
        const isEditable = this.eventDetails?.editable || this.createdEvent?.editable || false;
        const newEvent = this.createEventFrom(hours, minutes, formValue.title, isEditable, eventId);
-     
+       newEvent.ownerId = this.sessionService.getUserId();
        this.submitFormValue.emit(newEvent);
        if(this._validSpecifiedHour) {
          this.eventForm.reset({title: '', time: this._validSpecifiedHour + ':00'});
