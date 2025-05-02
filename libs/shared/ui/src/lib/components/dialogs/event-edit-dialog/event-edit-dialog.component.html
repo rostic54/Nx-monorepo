@@ -1,16 +1,24 @@
 <div class="cont-wrap">
-  <h3>Select an appointment to edit: </h3>
-
-  <lib-event-create-form
-    [eventDetails]="appointment"
-    [date]="appointment.currentDate"
-    [isDeletable]="data.permissionDelete"
-    (submitFormValue)="createOrUpdateEvent($event)"
-    (deleteItem)="deleteEvent($event)"
-  >
-    <button mat-raised-button color="primary"
-            (click)="closeDialog(null)">
-      Cancel
-    </button>
-  </lib-event-create-form>
+  <h3>Select an appointment to edit:</h3>
+  <div *ngIf="isLoading(); else content">
+    <ngx-skeleton-loader
+      count="3"
+      [appearance]="'line'"
+      [theme]="{ height: '50px', 'margin-bottom': '10px' }"
+    ></ngx-skeleton-loader>
+  </div>
+  <ng-template #content>
+    <lib-event-create-full-form
+      [eventDetails]="appointment"
+      [date]="appointment.currentDate"
+      [selectedAttendees]="selectedAttendees"
+      [isDeletable]="data.permissionDelete"
+      (submitFormValue)="createOrUpdateEvent($event)"
+      (deleteItem)="deleteEvent($event)"
+    >
+      <button mat-raised-button color="primary" (click)="closeDialog(null)">
+        Cancel
+      </button>
+    </lib-event-create-full-form>
+  </ng-template>
 </div>

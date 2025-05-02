@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { EventCreateFormComponent } from '../../components/event-create-form/event-create-form.component';
 import { Subscription } from 'rxjs';
-import { IDay, INewScheduledEvent, IScheduledEvent } from '@angular-monorepo/types-calendar';
+import { IDay, IScheduledEvent } from '@angular-monorepo/types-calendar';
 
 @Component({
   selector: 'lib-specific-hour',

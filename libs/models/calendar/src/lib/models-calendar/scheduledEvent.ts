@@ -10,12 +10,21 @@ export class ScheduledEvent implements IScheduledEvent {
   attendees: string[];
   editable: boolean;
 
-  constructor(date: Date, content: string, editable = false, id: string) {
-    this.id = id;
-    this.currentDate = date;
-    this.content = content;
-    this.editable = editable;
-    this.ownerId = id;
+  constructor(config: {
+    date: Date, 
+    content: string,
+    editable?: boolean, 
+    id: string, 
+    attendees: string[],
+    ownerId: string
+  }) {
+    this.id = config.id;
+    this.currentDate = config.date;
+    this.content = config.content;
+    this.editable = config.editable || false;
+    this.ownerId = config.ownerId;
+    this.attendees = config.attendees || [];
+    this.otherAttendees = config.attendees.length;
   }
 
   get year(): number {

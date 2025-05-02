@@ -22,10 +22,16 @@ import {
 } from '@angular-monorepo/types-calendar';
 import { NotificationService } from './notification.service';
 
-// TODO: Next Steps: 
-// - Add User Authorization page (SignIn, SignUp)
+// TODO: Next Steps:
+// - Add User Authorization page (SignIn, SignUp) - DONE
+// - Add User Profile page (Show/edit User info, Change password)
+// - Add list of users for group events - DONE
 // - Make optimization by using available events from local storage
 // - Add refresh local storage (Maybe add refresh button and keep version for user)
+
+// BUGS:
+// - Update event in local storage when deleting attendees from event
+
 
 @Injectable({
   providedIn: 'root',
@@ -176,14 +182,17 @@ export class DateManagerService {
   ): void {
     // TODO: Update date in DB
     const { fromDay, toDay } = dropDetails;
-    const { id, content, editable, currentDate } = dropDetails.eventDetails;
+    const { id, content, editable, currentDate, attendees, ownerId } =
+      dropDetails.eventDetails;
 
-    const scheduledEvent = new ScheduledEvent(
-      mergeDateAndTime(toDay.date, currentDate),
+    const scheduledEvent = new ScheduledEvent({
+      date: mergeDateAndTime(toDay.date, currentDate),
       content,
       editable,
-      id
-    );
+      id,
+      attendees,
+      ownerId
+    });
     this.scheduledEventAPIService
       .updateEventById(dropDetails.eventDetails.id, scheduledEvent)
       .subscribe((event) => {
@@ -235,16 +244,18 @@ export class DateManagerService {
   }
 
   deleteEventFromStore(eventId: string): Observable<boolean> {
-    const deletedEvent = this.selectedDay().events.find((ev) => ev.id === eventId);
+    const deletedEvent = this.selectedDay().events.find(
+      (ev) => ev.id === eventId
+    );
     return this.scheduledEventAPIService.deleteEventById(eventId).pipe(
       tap((isDeleted: boolean) => {
-      if (deletedEvent && isDeleted) {
-        this.updateEventListForSelectedDay(deletedEvent, true);
-        this.updateEventsInCurrentMonth(deletedEvent, true);
-        this.updateStoreWithDayCreation();
-      }
-     
-    }));
+        if (deletedEvent && isDeleted) {
+          this.updateEventListForSelectedDay(deletedEvent, true);
+          this.updateEventsInCurrentMonth(deletedEvent, true);
+          this.updateStoreWithDayCreation();
+        }
+      })
+    );
   }
 
   getDetailsForImportantDate(): Date {
@@ -359,11 +370,16 @@ export class DateManagerService {
     monthContainer.push(this.createDayInstance(day, events, isCurrentMonth));
   }
 
-  private updateEventListForSelectedDay(event: IScheduledEvent, isDeleted = false): void {
+  private updateEventListForSelectedDay(
+    event: IScheduledEvent,
+    isDeleted = false
+  ): void {
     const eventsList = this.selectedDay().events.filter(
       (ev: IScheduledEvent) => ev.id !== event.id
     );
-    const updatedEventsList = isDeleted ? [...eventsList] : [...eventsList, event];
+    const updatedEventsList = isDeleted
+      ? [...eventsList]
+      : [...eventsList, event];
 
     this._selectedDay.set(
       this.createDayInstance(
@@ -388,14 +404,19 @@ export class DateManagerService {
     this.notificationService.openSnackBar(content);
   }
 
-  private updateEventsInCurrentMonth(event: IScheduledEvent, isDeleted = false): void {
+  private updateEventsInCurrentMonth(
+    event: IScheduledEvent,
+    isDeleted = false
+  ): void {
     this._monthDays.update((monthDays) => {
       const res = monthDays.map((day: IDay) => {
         if (this.compareDates(day.date, event.currentDate)) {
           const eventsList: IScheduledEvent[] = day.events.filter(
             (dayEvent: IScheduledEvent) => dayEvent.id !== event.id
           );
-          const updatedEventsList = isDeleted ? [...eventsList] : [...eventsList, event];
+          const updatedEventsList = isDeleted
+            ? [...eventsList]
+            : [...eventsList, event];
 
           return DayFactory(
             day.date,

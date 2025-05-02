@@ -1,52 +1,53 @@
-import {Injectable} from '@angular/core';
-import {ScheduledEvent} from "@angular-monorepo/models-calendar";
-import {BehaviorSubject, Observable} from "rxjs";
-import {scheduledEventFactory} from "@angular-monorepo/factories-calendar";
+import { Injectable } from '@angular/core';
+import { ScheduledEvent } from '@angular-monorepo/models-calendar';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { scheduledEventFactory } from '@angular-monorepo/factories-calendar';
 import { HttpService } from './http.service';
 import { HttpParams } from '@angular/common/http';
-import { INewScheduledEvent, IScheduledEvent, RequestScheduledEvent } from '@angular-monorepo/types-calendar';
+import {
+  INewScheduledEvent,
+  IScheduledEvent,
+  RequestScheduledEvent,
+} from '@angular-monorepo/types-calendar';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ScheduledEventAPIService {
-  private _selectedEventForEdit: BehaviorSubject<ScheduledEvent | null> = new BehaviorSubject<ScheduledEvent | null>(null)
+  
+  constructor(private httpService: HttpService) {}
 
-  get selectedEvent(): Observable<ScheduledEvent | null> {
-    return this._selectedEventForEdit.asObservable();
-  }
-
-  constructor(private httpService: HttpService){
-  }
-
-  setEventForEdit({currentDate, content, editable, id}: ScheduledEvent): void {
-    this._selectedEventForEdit.next(scheduledEventFactory(currentDate, content, editable, id));
-  }
-
-  getEventsFromPeriod(fromDate: string, toDate: string): Observable<IScheduledEvent[]> {
+  getEventsFromPeriod(
+    fromDate: string,
+    toDate: string
+  ): Observable<IScheduledEvent[]> {
     const params = new HttpParams({ fromObject: { fromDate, toDate } });
 
-    return this.httpService
-      .get('/appointments/byDate', true, params);
+    return this.httpService.get('/appointments/byDate', true, params);
   }
 
   addEvent(event: INewScheduledEvent): Observable<IScheduledEvent> {
-    return this.httpService
-      .post<INewScheduledEvent, IScheduledEvent>('/appointments', event);
+    return this.httpService.post<INewScheduledEvent, IScheduledEvent>(
+      '/appointments',
+      event
+    );
   }
 
   getEventDetails(id: string): Observable<IScheduledEvent> {
-    return this.httpService
-      .get<IScheduledEvent>(`/appointments/${id}`);
+    return this.httpService.get<IScheduledEvent>(`/appointments/${id}`);
   }
 
-  updateEventById(id: string, event: IScheduledEvent): Observable<IScheduledEvent> {
-    return this.httpService
-      .put<RequestScheduledEvent, IScheduledEvent>(`/appointments/${id}`, event.requestDate);
+  updateEventById(
+    id: string,
+    event: IScheduledEvent
+  ): Observable<IScheduledEvent> {
+    return this.httpService.put<RequestScheduledEvent, IScheduledEvent>(
+      `/appointments/${id}`,
+      event.requestDate
+    );
   }
 
   deleteEventById(id: string): Observable<boolean> {
-    return this.httpService
-      .delete(`/appointments/${id}`);
+    return this.httpService.delete(`/appointments/${id}`);
   }
 }

@@ -7,7 +7,7 @@ import { createDateInstance } from '@angular-monorepo/utils-calendar';
 import { IDay } from '@angular-monorepo/types-calendar';
 
 export interface ICalendar {
-  [key: string]: IDay
+  [key: string]: IDay;
 }
 export interface IStorageCalendar {
   [key: string]: {
@@ -41,7 +41,9 @@ export class LocalStorageService {
     );
     if (calendarDataInStorage?.length) {
       // It's just an imitation of store, that's why need to make all manipulations above.
-      const storedCalendarValue: IStorageCalendar = JSON.parse(calendarDataInStorage);
+      const storedCalendarValue: IStorageCalendar = JSON.parse(
+        calendarDataInStorage
+      );
       const convertedCalendarData: ICalendar =
         this.convertStringsToModels(storedCalendarValue);
 
@@ -74,29 +76,33 @@ export class LocalStorageService {
     console.log('DAYS IN UPDATE STORE', days);
     console.log('CALENDAR STORE', calendarStore);
     days.forEach((day: IDay) => {
-      const dayMilliseconds= day.date.setHours(0, 0, 0, 0);
+      const dayMilliseconds = day.date.setHours(0, 0, 0, 0);
 
-      if(!day.events.length) {
+      if (!day.events.length) {
         delete calendarStore[dayMilliseconds];
         return;
       }
       calendarStore[dayMilliseconds] = day;
     });
-    
+
     this.calendarStoredData$.next(calendarStore);
   }
 
-  private convertStringsToModels(storedCalendarValue: IStorageCalendar): ICalendar {
+  private convertStringsToModels(
+    storedCalendarValue: IStorageCalendar
+  ): ICalendar {
     const calendarValues: ICalendar = {};
     for (const dayInfo in storedCalendarValue) {
       const regeneratedEvents = storedCalendarValue[dayInfo].events.map(
-        ({ currentDate, content, editable, id }: ScheduledEvent) =>
-          scheduledEventFactory(
-            createDateInstance(currentDate),
+        ({ currentDate, content, editable, id, attendees, ownerId }: ScheduledEvent) =>
+          scheduledEventFactory({
+            date: createDateInstance(currentDate),
             content,
             editable,
-            id
-          )
+            id,
+            attendees,
+            ownerId
+          })
       );
       calendarValues[dayInfo] = DayFactory(
         createDateInstance(storedCalendarValue[dayInfo].dateValue),
