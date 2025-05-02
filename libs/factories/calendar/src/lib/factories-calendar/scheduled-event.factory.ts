@@ -1,6 +1,6 @@
 import {ScheduledEvent} from "@angular-monorepo/models-calendar";
 
 
-export function scheduledEventFactory(date: Date, content?: string, isEditable?: boolean, id = ''): ScheduledEvent {
-  return new ScheduledEvent(date, content || '', isEditable, id);
+export function scheduledEventFactory(config: {date: Date, content: string, editable: boolean, id: string, attendees: string[], ownerId: string }): ScheduledEvent {
+  return new ScheduledEvent(config);
 }

@@ -97,7 +97,7 @@ export class DayDetailsCalendarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.dateManagerService.selectedDay()) {
-      // this.selectedDay = 
+      // this.selectedDay =
     }
   }
 
@@ -109,8 +109,23 @@ export class DayDetailsCalendarComponent implements OnInit, OnDestroy {
     ).map((index): HoursModel => {
       this.connectedTo.push('hour_' + index);
       const foundEvents: IScheduledEvent[] = dayEvents
-        .map(({ currentDate, content, editable, id }: IScheduledEvent) =>
-          scheduledEventFactory(currentDate, content, editable, id)
+        .map(
+          ({
+            currentDate,
+            content,
+            editable,
+            id,
+            attendees,
+            ownerId,
+          }: IScheduledEvent) =>
+            scheduledEventFactory({
+              date: currentDate,
+              content,
+              editable,
+              id,
+              attendees,
+              ownerId,
+            })
         )
         .filter((event: ScheduledEvent) => event.dateHour === index);
       return new HoursModel(index, [...foundEvents]);
@@ -162,12 +177,14 @@ export class DayDetailsCalendarComponent implements OnInit, OnDestroy {
         hour.timeNumber,
         transferredEvent.dateMinutes
       );
-      const updatedEvent = scheduledEventFactory(
-        updatedDate,
-        transferredEvent.content,
-        transferredEvent.editable,
-        transferredEvent.id
-      );
+      const updatedEvent = scheduledEventFactory({
+        date: updatedDate,
+        content: transferredEvent.content,
+        editable: transferredEvent.editable,
+        id: transferredEvent.id,
+        attendees: transferredEvent.attendees,
+        ownerId: transferredEvent.ownerId,
+      });
       this.updateScheduledEvent(updatedEvent);
     }
   }

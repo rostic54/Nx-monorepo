@@ -23,15 +23,12 @@ export const appRoutes: Routes = [
   },
   {
     path: 'auth',
-    // pathMatch: 'full',
-    // canActivate: [authGuard],
     component: AuthComponent,
     children: [
       {path: 'login', component: SignInComponent },
       {path: 'register', component: SignUpComponent },
       { path: '', pathMatch: 'full', redirectTo: 'login' },
     ]
-    // loadComponent: () => import('@angular-monorepo/dashboard').then(m => m.DashboardComponent)
   },
   {
     path: 'day/:date',

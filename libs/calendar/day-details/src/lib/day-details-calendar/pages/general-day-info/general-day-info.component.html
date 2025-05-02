@@ -1,8 +1,12 @@
 <div class="content-wrap">
-  <button mat-raised-button color="primary"(click)="setSelectedEventForEdit()">Create Event</button>
-  <p class="tip">Press the hour row to create an appointment for selected hour</p>
+  <button mat-raised-button color="primary" (click)="setSelectedEventForEdit()">
+    Create Event
+  </button>
+  <p class="tip">
+    Press the hour row to create an appointment for selected hour
+  </p>
   <div class="list">
-    <h4>List of events for the Day({{currentDayInfo().events.length}}): </h4>
+    <h4>List of events for the Day({{ currentDayInfo().events.length }}):</h4>
     <ul>
       <li *ngFor="let event of currentDayInfo().events">
         {{ event.preciseTime }}-{{ event.content }}
