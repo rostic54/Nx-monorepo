@@ -32,6 +32,7 @@ export class EventEditDialogComponent implements OnInit {
   appointment: IScheduledEvent;
   isLoading = signal(false);
   selectedAttendees: WritableSignal<IUserInfo[]> = signal([]);
+  testHusky = "test husky";
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: IEventDialogData,
