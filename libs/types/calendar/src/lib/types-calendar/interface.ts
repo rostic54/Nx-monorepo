@@ -1,3 +1,5 @@
+import { PromptTopic } from '@angular-monorepo/enums-calendar';
+
 export interface Information {
   info: string;
 }
@@ -32,7 +34,7 @@ export interface IScheduledEvent {
   get dateMinutes(): number;
 }
 
-export type INewScheduledEvent = Omit<IScheduledEvent, 'id'>; 
+export type INewScheduledEvent = Omit<IScheduledEvent, 'id'>;
 
 export type RequestScheduledEvent = Omit<
   IScheduledEvent,
@@ -63,4 +65,46 @@ export interface IRegisterUser extends ILoginUser {
 
 export interface ILoginResponse {
   message: string;
+}
+
+/// AI ASSISTANT
+
+export interface ITitleSuggestions {
+  titleSuggestions: string[];
+}
+
+export interface ISportDetailedInfo {
+  facts: string[];
+  stats: {
+    season?: string;
+    matchesPlayed?: number;
+    wins?: number;
+    losses?: number;
+    draws?: number;
+    topScorer?: string;
+    [key: string]: any;
+  };
+  image: string;
+}
+export type AiMeetingDetails = ISportDetailedInfo;
+
+type AiResponseResult = AiMeetingDetails | ITitleSuggestions;
+
+export interface IAiAssistantResponseDto {
+  sessionId: string;
+  result: AiResponseResult;
+}
+
+export interface IAiAssistantPromptDto {
+  sessionId: string | null;
+  prompt: Prompt;
+}
+
+export interface PromptDetails {
+  subTopic: string;
+  targetItem: string;
+}
+
+export interface Prompt extends PromptDetails {
+  topic: PromptTopic;
 }

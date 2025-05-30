@@ -1,3 +1,224 @@
-.action {
-  margin-bottom: 10px;
+// .dialog-wrapper {
+//   .details {
+//     margin: 0 20px;
+//     .image-frame {
+//       margin: 10px 20px;
+//     }
+//   }
+//   .generation-form {
+//     margin-bottom: 20px;
+//   }
+//   .form {
+//     min-width: 400px;
+//   }
+//   .meeting-image {
+//     width: 100%;
+//     max-width: 500px;
+//   }
+//   .list {
+//     .item {
+//       margin-bottom: 1rem;
+//     }
+//   }
+// }
+
+// .interactive-icon {
+//   cursor: pointer;
+//   padding-right: 10px;
+//   &.disabled {
+//     color: rgba(0, 0, 0, 0.26); /* or use --disabled color from theme */
+//     pointer-events: none;
+//     cursor: default;
+//   }
+// }
+
+// ::ng-deep mat-form-field {
+//   width: 100%;
+//   margin-bottom: 1.5rem;
+
+//   .mat-mdc-form-field-subscript-wrapper {
+//     min-height: 0;
+//     margin-top: 0;
+//   }
+
+//   .mat-mdc-text-field-wrapper {
+//     border-radius: 8px;
+//     background-color: #f7f7f7;
+//     box-shadow: inset 0 0 0 1px #d0d0d0;
+//     transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+
+//     &:hover {
+//       box-shadow: inset 0 0 0 2px #3f51b5;
+//     }
+//   }
+
+//   &.mat-focused .mat-mdc-text-field-wrapper {
+//     box-shadow: inset 0 0 0 2px #3f51b5;
+//     background-color: #fff;
+//   }
+
+//   .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+//     background-color: transparent;
+//   }
+
+//   .mdc-floating-label {
+//     font-size: 14px;
+//     font-weight: 500;
+//     color: #666;
+//   }
+
+//   input.mat-mdc-input-element,
+//   textarea.mat-mdc-input-element {
+//     font-size: 16px;
+//     color: #333;
+//   }
+
+//   .mat-mdc-select {
+//     font-size: 16px;
+//     color: #333;
+//   }
+
+//   .mat-mdc-select-arrow {
+//     color: #666;
+//   }
+// }
+
+.dialog-wrapper {
+  padding: 24px;
+  background: var(--background-color);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+
+  .details {
+    margin: 0 24px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #ffffff;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .image-frame {
+      margin: 16px 24px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  .generation-form {
+    margin: 24px 0;
+    padding: 20px;
+    background: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .form {
+    min-width: 400px;
+    width: 100%;
+  }
+
+  .meeting-image {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+
+  .list {
+    .item {
+      margin-bottom: 1rem;
+      padding: 16px;
+      background: var(--card-background);
+      border-radius: 8px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: var(--card-background);
+        opacity: 0.2;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        transform: translateX(4px);
+      }
+    }
+  }
+}
+
+.interactive-icon {
+  cursor: pointer;
+  padding: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  color: #666;
+
+  &:hover {
+    background-color: rgba(63, 81, 181, 0.08);
+    color: #3f51b5;
+    transform: scale(1.1);
+  }
+
+  &.disabled {
+    color: rgba(0, 0, 0, 0.26);
+    pointer-events: none;
+    cursor: default;
+  }
+}
+
+::ng-deep mat-form-field {
+  // ...existing code...
+
+  .mat-mdc-text-field-wrapper {
+    border-radius: 8px;
+    background-color: var(--input-background);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s ease;
+
+    &:hover {
+      // background-color: var(--input-background);
+      // opacity: 0.8;
+      box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.3);
+    }
+  }
+
+  &.mat-focused .mat-mdc-text-field-wrapper {
+    background-color: var(--input-background);
+    box-shadow: 0 0 0 2px #3f51b5;
+  }
+
+  // ...existing code...
+
+  .mdc-floating-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+  }
+
+  input.mat-mdc-input-element,
+  textarea.mat-mdc-input-element {
+    font-size: 16px;
+    color: var(--text-color);
+    // padding: 12px 8px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(63, 81, 181, 0.02);
+    }
+  }
+
+  .mat-mdc-select {
+    font-size: 16px;
+    color: #212529;
+  }
+
+  .mat-mdc-select-arrow {
+    color: #495057;
+  }
 }

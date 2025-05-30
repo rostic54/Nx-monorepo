@@ -1,18 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
-@use "../../styles/calendar/variables" as *;
+@use '../../styles/calendar/variables' as *;
+@use './form-field';
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 .main-container {
   vertical-align: center;
   height: 100vh;
   color: rgb(58, 53, 53);
-  margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
   .page-wrap {
     max-width: 900px;
     min-width: 500px;
   }
-
 }
+
+.content-wrap {
+  padding: 0 30px;
+}
+
+///// FLEXBOX STYLING
 
 .flex {
   display: flex;
@@ -34,6 +41,9 @@
   &.align-end {
     align-items: end;
   }
+  &.align-start {
+    align-items: start;
+  }
   &.align-stretch {
     align-items: stretch;
   }
@@ -47,7 +57,16 @@
       flex-wrap: wrap;
     }
   }
+  &.gap-1 {
+    gap: 1rem;
+  }
+  &.gap-2 {
+    gap: 2rem;
+  }
 }
+
+/// GENERAL STYLING
+
 .alert {
   color: $alert;
 }
@@ -56,9 +75,30 @@
   color: purple;
 }
 
-html, body {
+.center {
+  text-align: center;
+}
+
+/// POSITIONING
+
+.absolute {
+  position: absolute;
+}
+.relative {
+  position: relative;
+}
+
+.alert-form {
+  bottom: -20px;
+  left: 15px;
+}
+
+////// GLOBAL STYLING
+
+html,
+body {
   height: 100%;
   // background-image: url("/assets/images/img_1.png"); - This may be a solution for Catalog serving
-  background-image: url("/calendar/assets/images/img_1.png"); // This for running Calendar serve only
+  background-image: url('/calendar/assets/images/img_1.png'); // This for running Calendar serve only
   background-repeat: repeat;
 }

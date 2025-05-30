@@ -1,5 +1,6 @@
 import {
   Component,
+  HostBinding,
   Inject,
   OnInit,
   signal,
@@ -7,12 +8,16 @@ import {
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
+  AiMeetingDetails,
+  IAiAssistantPromptDto,
+  IAiAssistantResponseDto,
   IEventDialogData,
   IScheduledEvent,
   IUserInfo,
 } from '@angular-monorepo/types-calendar';
 import { EventCreateFormComponent } from '../../event-create-form/event-create-full-form.component';
 import {
+  AiAssistantService,
   DateManagerService,
   UserAPIService,
 } from '@angular-monorepo/services-calendar';
@@ -31,13 +36,22 @@ import { NgIf } from '@angular/common';
 export class EventEditDialogComponent implements OnInit {
   appointment: IScheduledEvent;
   isLoading = signal(false);
-  selectedAttendees: WritableSignal<IUserInfo[]> = signal([]);
+  width = signal('400px');
+  selectedAttendees$: WritableSignal<IUserInfo[]> = signal([]);
+  titleList$: WritableSignal<string[]> = signal([]);
+  meetingDetails$: WritableSignal<AiMeetingDetails | null> = signal(null);
+  private chatSessionId: string | null = null;
+
+  @HostBinding('style.width') get dialogWidth() {
+    return this.width();
+  }
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: IEventDialogData,
     private dialogRef: MatDialogRef<EventEditDialogComponent>,
     private dateManagerService: DateManagerService,
-    private userService: UserAPIService
+    private userService: UserAPIService,
+    private aiAssistantService: AiAssistantService
   ) {}
 
   ngOnInit(): void {
@@ -51,13 +65,15 @@ export class EventEditDialogComponent implements OnInit {
       this.getAttendeesDetailedInfo(attendeeIds)
         .pipe(finalize(() => setTimeout(() => this.isLoading.set(false), 1000)))
         .subscribe({
-          next: (users: IUserInfo[]) => this.selectedAttendees.set(users),
+          next: (users: IUserInfo[]) => {
+            this.selectedAttendees$.set(users);
+          },
           error: () => console.error('Error fetching attendees'),
         });
     }
   }
 
-   /***************************************************************************
+  /***************************************************************************
    *  ACTIONS
    ****************************************************************************/
 
@@ -83,7 +99,54 @@ export class EventEditDialogComponent implements OnInit {
     this.dialogRef.close(result);
   }
 
-   /***************************************************************************
+  sendPrompt(promptData: IAiAssistantPromptDto) {
+    this.isLoading.set(true);
+    promptData.sessionId = this.chatSessionId;
+
+    this.aiAssistantService
+      .sendPrompt(promptData)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: (response: IAiAssistantResponseDto) => {
+          this.chatSessionId = response.sessionId;
+          this.width.set('800px');
+
+          const meetingDetails = response.result as AiMeetingDetails;
+          meetingDetails.image = meetingDetails.image?.length
+            ? meetingDetails.image
+            : 'assets/images/non-topic_img.jpg';
+
+          this.meetingDetails$.set(meetingDetails);
+          console.log('AI Assistant Response:', response);
+        },
+        error: (error) => {
+          console.error('Error from AI Assistant:', error);
+          this.meetingDetails$.set(null);
+        },
+      });
+  }
+
+  sendTitlesOptionsPrompt(promptData: IAiAssistantPromptDto): void {
+    promptData.sessionId = this.chatSessionId;
+
+    this.aiAssistantService
+      .getTitlesSuggestions(promptData)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: (response: IAiAssistantResponseDto) => {
+          this.chatSessionId = response.sessionId;
+          if ('titleSuggestions' in response.result) {
+            this.titleList$.set(response.result.titleSuggestions);
+          }
+        },
+        error: (error) => {
+          console.error('Error getting title suggestions:', error);
+          this.titleList$.set([]);
+        },
+      });
+  }
+
+  /***************************************************************************
    *  HELPERS
    ****************************************************************************/
 

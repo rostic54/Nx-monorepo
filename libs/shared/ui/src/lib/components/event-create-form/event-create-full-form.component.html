@@ -1,85 +1,199 @@
-<form [formGroup]="eventForm" class="flex between column">
-  <mat-form-field class="filed-wrap">
-    <mat-label>Title</mat-label>
-    <input
-      type="text"
-      matInput
-      formControlName="title"
-      placeholder="Some text"
-    />
-  </mat-form-field>
-  <div
-    *ngIf="
-      formControlsTitle['title']?.invalid &&
-      (formControlsTitle['title'].dirty || formControlsTitle['title'].touched)
-    "
-    class="alert"
-  >
-    <div *ngIf="formControlsTitle['title'].errors?.['required']">
-      Name is required.
-    </div>
-    <div *ngIf="formControlsTitle['title'].errors?.['maxlength']">
-      Title length max {{ lengthOfTitle }}.
-    </div>
-  </div>
-  <mat-form-field class="filed-wrap">
-    <mat-label>Time</mat-label>
-    <input type="time" matInput formControlName="time" />
-  </mat-form-field>
+<div mat-dialog-content class="dialog-wrapper flex between align-start">
+  <form [formGroup]="eventForm" class="form flex gap-1 between column">
+    <!-- TOPIC DETAILS GENERATOR START -->
+    <div formGroupName="topicDetails" class="generation-form flex gap-2 column">
+      <mat-form-field>
+        <mat-label>Choose an option</mat-label>
+        <select matNativeControl formControlName="topic">
+          <option value="" selected></option>
+          @for (topic of topicList; track topic) {
+          <option [value]="topic">{{ topic }}</option>
+          }
+        </select>
+      </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Invited Attendees</mat-label>
-    <mat-chip-grid #chipGrid aria-label="Attendee selection">
-      @for (selectedAttendee of selectedAttendees(); track $index) {
-      <mat-chip-row (removed)="removeAttendee(selectedAttendee)">
-        {{ selectedAttendee.email }}
-        <button
-          matChipRemove
-          [attr.aria-label]="'remove ' + selectedAttendee.email"
+      <div class="input-wrapper relative">
+        <mat-form-field>
+          <mat-label>Meeting Title</mat-label>
+          <input
+            type="text"
+            placeholder="Type a title or set keywords for generation"
+            matInput
+            #subTopicInput
+            formControlName="subTopic"
+            placeholder="e.g: Champion League, Football"
+            [matAutocomplete]="auto"
+          />
+
+          <mat-icon
+            matSuffix
+            [className]="'interactive-icon'"
+            [class.disabled]="titleGenerationInProgress$()"
+            (click)="generateTitles()"
+            (keydown.enter)="generateTitles()"
+            [tabIndex]="titleGenerationInProgress$() ? -1 : 0"
+          >
+            {{
+              titleGenerationInProgress$() ? 'hourglass_top' : 'auto_awesome'
+            }}
+          </mat-icon>
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            @for (title of titleList$(); track title) {
+            <mat-option [value]="title">{{ title }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+        <div
+          *ngIf="
+            topicDetailControls['subTopic']?.invalid &&
+            (topicDetailControls['subTopic'].dirty ||
+              topicDetailControls['subTopic'].touched)
+          "
+          class="alert alert-form absolute"
         >
-          <mat-icon>cancel</mat-icon>
-        </button>
-      </mat-chip-row>
-      }
-    </mat-chip-grid>
-    <mat-label>Attendees</mat-label>
-    <input
-      type="text"
-      placeholder="Pick the Attendee"
-      matInput
-      #attendeeInput
-      [formControl]="searchFragment"
-      [matChipInputFor]="chipGrid"
-      [matAutocomplete]="auto"
-    />
-    <mat-autocomplete
-      autoActiveFirstOption
-      #auto="matAutocomplete"
-      (optionSelected)="selectedAttendee($event)"
-    >
-      @for (attendee of attendeeList$ | async; track attendee) {
-      <mat-option [value]="attendee">{{ attendee.email }}</mat-option>
-      }
-    </mat-autocomplete>
-  </mat-form-field>
+          <div *ngIf="topicDetailControls['subTopic'].errors?.['required']">
+            Name is required.
+          </div>
+          <div *ngIf="topicDetailControls['subTopic'].errors?.['maxlength']">
+            Title length max {{ lengthOfTitle }}.
+          </div>
+        </div>
+      </div>
 
-  <button
-    class="action"
-    mat-raised-button
-    color="primary"
-    [disabled]="eventForm.invalid"
-    (click)="submitForm()"
-  >
-    Save
-  </button>
-  <button
-    class="action"
-    mat-raised-button
-    color="warn"
-    *ngIf="isDeletable?.isAllowed"
-    (click)="deleteEvent()"
-  >
-    Delete
-  </button>
-  <ng-content></ng-content>
-</form>
+      <mat-form-field class="filed-wrap">
+        <mat-label>Type key words for details generation</mat-label>
+        <input
+          type="text"
+          placeholder="e.g: Tyson, knockout, boxing"
+          matInput
+          formControlName="targetItem"
+        />
+      </mat-form-field>
+      <div class="button-wrap">
+        <button
+          class="action"
+          mat-raised-button
+          color="primary"
+          [disabled]="
+            topicDetailsFormGroup.invalid ||
+            isSubTitleEmpty$() ||
+            detailsGeneration$()
+          "
+          (click)="generateMeetingDetails()"
+        >
+          Generate Details
+        </button>
+      </div>
+    </div>
+    <!-- TOPIC DETAILS GENERATOR END -->
+
+    <!-- MEETING SETTINGS START -->
+    <mat-form-field class="filed-wrap">
+      <mat-label>Time</mat-label>
+      <input type="time" matInput formControlName="time" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Invited Attendees</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Attendee selection">
+        @for (selectedAttendee of selectedAttendees(); track $index) {
+        <mat-chip-row (removed)="removeAttendee(selectedAttendee)">
+          {{ selectedAttendee.email }}
+          <button
+            matChipRemove
+            [attr.aria-label]="'remove ' + selectedAttendee.email"
+          >
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        }
+      </mat-chip-grid>
+      <mat-label>Attendees</mat-label>
+      <input
+        type="text"
+        placeholder="Pick the Attendee"
+        matInput
+        #attendeeInput
+        [formControl]="searchAttendees"
+        [matChipInputFor]="chipGrid"
+        [matAutocomplete]="autoAttendee"
+      />
+      <mat-autocomplete
+        autoActiveFirstOption
+        #autoAttendee="matAutocomplete"
+        (optionSelected)="selectedAttendee($event)"
+      >
+        @for (attendee of attendeeList$(); track attendee.id) {
+        <mat-option [value]="attendee">{{ attendee.email }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <!-- MEETING SETTINGS END -->
+
+    <!-- CONTROL BUTTONS START -->
+    <div class="bottom flex between align-center">
+      <div class="flex align-center gap-1">
+        <button
+          class="action"
+          mat-raised-button
+          color="primary"
+          [disabled]="eventForm.invalid"
+          (click)="submitForm()"
+        >
+          Save
+        </button>
+        <ng-content></ng-content>
+      </div>
+      <button
+        class="action"
+        mat-raised-button
+        color="warn"
+        *ngIf="isDeletable?.isAllowed"
+        (click)="deleteEvent()"
+      >
+        Delete
+      </button>
+    </div>
+    <!-- CONTROL BUTTONS END -->
+  </form>
+  <!-- MEETING DETAILS OVERVIEW START -->
+  <mat-card *ngIf="meetingDetails$()" class="details" appearance="outlined">
+    <div class="flex column align-stretch">
+      <mat-card-header>
+        <mat-card-title> Can be useful for upcoming meeting:</mat-card-title>
+      </mat-card-header>
+      <div class="image-frame flex align-center center">
+        <img
+          src="{{ meetingDetails$()?.image! }}"
+          alt="Meeting Image"
+          class="meeting-image"
+        />
+      </div>
+      <mat-card-content>
+        <h3 class="center">Interesting facts:</h3>
+        <ul class="list">
+          @for (fact of meetingDetails$()?.facts; track fact) {
+          <li class="item">
+            <span class="fact">{{ fact }}</span>
+          </li>
+          }
+        </ul>
+        <div
+          *ngIf="meetingDetails$()?.stats as stats"
+          class="flex column align-stretch"
+        >
+          <h3 class="center">Statistics</h3>
+          <ul class="list">
+            @for (statItem of stats | keyvalue; track statItem) {
+            <li class="item">
+              <strong>{{ statItem.key | titlecase }}:</strong>
+              {{ statItem.value }}
+            </li>
+            }
+          </ul>
+        </div>
+      </mat-card-content>
+    </div>
+  </mat-card>
+  <!-- MEETING DETAILS OVERVIEW END -->
+</div>

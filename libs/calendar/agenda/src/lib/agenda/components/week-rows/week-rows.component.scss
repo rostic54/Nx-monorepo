@@ -1,15 +1,15 @@
-@use "libs/shared/styles/calendar/variables" as *;
+@use 'libs/shared/styles/calendar/variables' as *;
 
 .calendar-day {
   position: relative;
   text-align: center;
   cursor: pointer;
-  border: 1px solid $main-gray;
+  border: 1px solid var(--border-color);
   &.weekend {
-    background-color: $light-red;
+    background-color: var(--weekend-background);
   }
   &.beyond {
-    background-color: $dark-gray;
+    background-color: var(--beyond-day-background);
   }
   .day-content {
     width: 120px;

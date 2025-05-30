@@ -1,0 +1,55 @@
+// Light theme variables
+:root {
+  // Primary colors
+  --primary-color: rgb(75 87 232);
+  --secondary-color: #6971ce;
+  --accent-color: #daad59;
+
+  // Background colors
+  --background-color: #f8f8de;
+  --surface-color: #f8f8f8;
+  --card-background: #ffffff;
+  --input-background: #f7f7f7;
+  --weekend-background: #f5a78d;
+
+  // Text colors
+  --text-color: rgb(58, 53, 53);
+  --text-secondary-color: #666666;
+
+  // State colors
+  --error-color: #f44336;
+  --success-color: #0bbb0b;
+  --warning-color: #daad59;
+  --disabled-color: rgba(0, 0, 0, 0.26);
+
+  // Border colors
+  --border-color: #d0d0d0;
+}
+
+/* Dark theme overrides */
+[data-theme='dark'] {
+  // Primary colors
+  --primary-color: #6971ce;
+  --secondary-color: rgb(75 87 232);
+  --accent-color: #daad59;
+
+  // Background colors
+  --background-color: #121212;
+  --surface-color: #1e1e1e;
+  --card-background: #1e1e1e;
+  --input-background: #2d2d2d;
+  --weekend-background: #ae4623;
+
+  // Text colors
+  --text-color: #d1d5db;
+  --text-secondary-color: #a0a0a0;
+
+  // State colors
+  --error-color: #ef5350;
+  --success-color: #4caf50;
+  --warning-color: #ffb74d;
+  --disabled-color: rgba(255, 255, 255, 0.3);
+
+  // Border colors
+  --border-color: #333333;
+}

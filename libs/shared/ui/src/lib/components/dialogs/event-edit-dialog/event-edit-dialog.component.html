@@ -11,9 +11,13 @@
     <lib-event-create-full-form
       [eventDetails]="appointment"
       [date]="appointment.currentDate"
-      [selectedAttendees]="selectedAttendees"
+      [selectedAttendees]="selectedAttendees$"
+      [titleList]="titleList$()"
+      [meetingDetails]="meetingDetails$()"
       [isDeletable]="data.permissionDelete"
       (submitFormValue)="createOrUpdateEvent($event)"
+      (sendPrompt)="sendPrompt($event)"
+      (sendTitlesPrompt)="sendTitlesOptionsPrompt($event)"
       (deleteItem)="deleteEvent($event)"
     >
       <button mat-raised-button color="primary" (click)="closeDialog(null)">
