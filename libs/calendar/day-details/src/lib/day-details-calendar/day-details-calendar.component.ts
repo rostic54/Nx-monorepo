@@ -146,8 +146,8 @@ export class DayDetailsCalendarComponent implements OnInit, OnDestroy {
           appointment: scheduledEvent,
           permissionDelete: this.isDeletable,
         },
-        height: '400px',
-        width: '600px',
+        maxHeight: '80vw',
+        maxWidth: '90vw',
       })
       .afterClosed()
       .pipe(filter((message) => message))

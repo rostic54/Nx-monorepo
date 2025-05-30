@@ -1,4 +1,4 @@
-@use "../../../../../shared/styles/calendar/variables.scss" as *;
+@use '../../../../../shared/styles/calendar/variables.scss' as *;
 
 :host {
   display: flex;
@@ -6,9 +6,13 @@
   justify-content: center;
   height: 100%;
 
+  .page-wrap {
+    color: var(--text-color);
+  }
+
   .details-wrap {
     width: 200px;
-    background-color: $main-background;
+    background-color: var(--background-color);
     border-radius: 15px;
     margin-left: 10px;
   }
@@ -37,19 +41,18 @@
   }
 }
 
-
 .item {
- position: relative;
+  position: relative;
   cursor: pointer;
   height: 150px;
   border-bottom: 2px solid black;
-  opacity: .85;
+  opacity: 0.85;
   &:nth-child(even) {
-    background: darkgray;
+    background: var(--hours-dark-gray);
   }
 
   &:nth-child(odd) {
-    background: lightgray;
+    background: var(--hours-light-gray);
   }
   &:hover {
     opacity: 1;

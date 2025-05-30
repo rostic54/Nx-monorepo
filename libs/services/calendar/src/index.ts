@@ -7,3 +7,4 @@ export * from './lib/services-calendar/session.service';
 export * from './lib/services-calendar/auth.service';
 export * from './lib/services-calendar/http.service';
 export * from './lib/services-calendar/user-api.service';
+export * from './lib/services-calendar/ai-assistant.service';

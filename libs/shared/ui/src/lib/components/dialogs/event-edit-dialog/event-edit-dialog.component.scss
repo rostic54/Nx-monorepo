@@ -1,6 +1,4 @@
-@use "../../../../../../styles/calendar/variables" as *;
-
 .cont-wrap {
   padding: 20px 40px;
-background-color: $main-background;
+  background-color: var(--background-color);
 }

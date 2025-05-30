@@ -5,7 +5,7 @@ export enum WeekDays {
   Thursday = 'Thursday',
   Friday = 'Friday',
   Saturday = 'Saturday',
-  Sunday = 'Sunday'
+  Sunday = 'Sunday',
 }
 
 export enum MonthName {
@@ -20,5 +20,13 @@ export enum MonthName {
   September = 'September',
   October = 'October',
   November = 'November',
-  December = 'December'
+  December = 'December',
+}
+
+export enum PromptTopic {
+  BUSINESS = 'BUSINESS',
+  TRAVEL = 'TRAVEL',
+  FINANCE = 'FINANCE',
+  SPORT = 'SPORT',
+  INVESTMENT = 'INVESTMENT',
 }

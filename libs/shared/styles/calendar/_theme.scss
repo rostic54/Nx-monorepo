@@ -1,0 +1,89 @@
+// Light theme variables
+:root {
+  // Primary colors
+  --primary-color: rgb(75 87 232);
+  --secondary-color: #6971ce;
+  --accent-color: #daad59;
+
+  // Background colors
+  --background-color: #f8f8de;
+  --surface-color: #f8f8f8;
+  --card-background: #ffffff;
+  --input-background: #f7f7f7;
+  --weekend-background: #f5a78d;
+  --beyond-day-background: #beb9b963;
+  --hours-dark-gray: darkgray;
+  --hours-light-gray: lightgray;
+
+  // Text colors
+  --text-color: rgb(58, 53, 53);
+  --text-secondary-color: #666666;
+
+  // State colors
+  --error-color: #f44336;
+  --success-color: #0bbb0b;
+  --warning-color: #daad59;
+  --disabled-color: rgba(0, 0, 0, 0.26);
+
+  // Border colors
+  --border-color: #d0d0d0;
+}
+
+/* Dark theme overrides */
+[data-theme='dark'] {
+  // Primary colors
+  --primary-color: #6971ce;
+  --secondary-color: rgb(75 87 232);
+  --accent-color: #daad59;
+
+  // Background colors
+  --background-color: #2d2c2c;
+  --surface-color: #1e1e1e;
+  --card-background: #1e1e1e;
+  --input-background: #403f3f;
+  --weekend-background: #ae4623;
+  --hours-dark-gray: #797474;
+  --hours-light-gray: #a6a4a4;
+
+  // Text colors
+  --text-color: #d7d0d0;
+  --text-secondary-color: #a0a0a0;
+
+  // State colors
+  --error-color: #ef5350;
+  --success-color: #4caf50;
+  --warning-color: #ffb74d;
+  --disabled-color: rgba(255, 255, 255, 0.3);
+
+  // Border colors
+  --border-color: #333333;
+}
+
+// Apply theme variables to elements
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Material overrides
+.mat-mdc-card {
+  background-color: var(--card-background) !important;
+}
+
+.mat-mdc-form-field {
+  .mat-mdc-text-field-wrapper {
+    background-color: var(--input-background) !important;
+  }
+}
+
+// PrimeNG overrides (for ATM app)
+.p-component {
+  color: var(--text-color) !important;
+  background-color: var(--surface-color) !important;
+}
+
+.p-button {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}

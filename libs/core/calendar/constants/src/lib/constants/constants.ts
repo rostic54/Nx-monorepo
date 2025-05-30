@@ -1,4 +1,8 @@
-import {MonthName, WeekDays} from "@angular-monorepo/enums-calendar";
+import {
+  MonthName,
+  PromptTopic,
+  WeekDays,
+} from '@angular-monorepo/enums-calendar';
 
 export const monthList = [
   MonthName.January,
@@ -13,7 +17,7 @@ export const monthList = [
   MonthName.October,
   MonthName.November,
   MonthName.December,
-]
+];
 
 export const weekDays = [
   WeekDays.Monday,
@@ -22,8 +26,16 @@ export const weekDays = [
   WeekDays.Thursday,
   WeekDays.Friday,
   WeekDays.Saturday,
-  WeekDays.Sunday
-]
+  WeekDays.Sunday,
+];
 
-export const  DAYS_IN_MONTH_VIEW = 42;
+export const DAYS_IN_MONTH_VIEW = 42;
 export const HOURS_IN_DAY = 24;
+
+export const topicOptions = [
+  PromptTopic.BUSINESS,
+  PromptTopic.FINANCE,
+  PromptTopic.INVESTMENT,
+  PromptTopic.SPORT,
+  PromptTopic.TRAVEL,
+];

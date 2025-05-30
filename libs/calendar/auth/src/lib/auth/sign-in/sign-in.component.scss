@@ -3,8 +3,9 @@
   margin: 40px auto;
   padding: 2rem;
   border-radius: 10px;
-  background-color: #f6f6f6;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  background-color: var(--card-background);
+  color: var(--text-color);
+  box-shadow: 0 0 15px var(--border-color);
 
   h2 {
     text-align: center;
@@ -23,6 +24,8 @@
 
     input {
       padding: 0.5rem;
+      background-color: var(--input-background);
+      color: var(--text-color);
       border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 1rem;

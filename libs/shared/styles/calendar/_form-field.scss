@@ -1,0 +1,32 @@
+mat-form-field {
+  width: 100%;
+  .mat-mdc-form-field-subscript-wrapper {
+    height: 0;
+    margin-top: 0;
+  }
+
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input,
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-floating-label {
+    color: var(--text-color);
+    // opacity: 0.87;
+  }
+
+  &.mat-focused .mat-mdc-input-element::placeholder {
+    color: var(--text-color) !important;
+    opacity: 0.3;
+  }
+}
+
+.mat-mdc-form-field:not(.mat-form-field-disabled)
+  .mat-mdc-floating-label.mdc-floating-label {
+  color: var(--text-color);
+  opacity: 0.6;
+}
+
+div.mat-mdc-autocomplete-panel {
+  background-color: var(--input-background) !important;
+
+  .mat-mdc-option.mdc-list-item {
+    color: var(--text-color);
+  }
+}
