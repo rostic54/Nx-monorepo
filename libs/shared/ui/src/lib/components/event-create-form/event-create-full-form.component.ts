@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   computed,
   ElementRef,
@@ -44,20 +43,13 @@ import { createDateWithSpecifiedTime } from '@angular-monorepo/utils-calendar';
 import {
   catchError,
   filter,
-  Observable,
   of,
   startWith,
   Subject,
   switchMap,
   takeUntil,
-  tap,
 } from 'rxjs';
-import {
-  KeyValuePipe,
-  NgIf,
-  NgOptimizedImage,
-  TitleCasePipe,
-} from '@angular/common';
+import { KeyValuePipe, NgIf, TitleCasePipe } from '@angular/common';
 import {
   AiMeetingDetails,
   IAiAssistantPromptDto,
@@ -72,11 +64,13 @@ import {
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { PromptTopic } from '@angular-monorepo/enums-calendar';
 import { topicOptions } from '@angular-monorepo/constants';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'lib-event-create-full-form',
   standalone: true,
   imports: [
+    CommonModule,
     MatButton,
     MatFormField,
     MatInput,
