@@ -1,0 +1,143 @@
+<div class="queue-container">
+  <div class="queue-header">
+    <h1>Electronic Queue Registration</h1>
+    <div class="header-actions">
+      <button 
+        class="monitor-button" 
+        [class.active]="isMonitoring()"
+        (click)="toggleMonitoring()">
+        {{ isMonitoring() ? '🔴 Stop Monitoring' : '▶️ Start Monitoring' }}
+      </button>
+      <div class="notifications-badge" *ngIf="unreadCount() > 0">
+        <span class="badge">{{ unreadCount() }}</span>
+        <span>New notifications</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="queue-content">
+    <!-- Notifications Section -->
+    <div class="notifications-section" *ngIf="notifications().length > 0">
+      <h2>📢 Notifications</h2>
+      <div class="notifications-list">
+        <div 
+          *ngFor="let notification of notifications()" 
+          class="notification-item"
+          [class.unread]="!notification.read"
+          (click)="markNotificationRead(notification)">
+          <div class="notification-content">
+            <p>{{ notification.message }}</p>
+            <small>{{ formatDateTime(notification.timestamp) }}</small>
+          </div>
+          <span class="notification-indicator" *ngIf="!notification.read">●</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Available Slots Section -->
+    <div class="slots-section">
+      <h2>📋 Available Queue Slots</h2>
+      <div class="info-message" *ngIf="isMonitoring()">
+        <p>✓ Monitoring active - You will be notified when new slots become available</p>
+      </div>
+      
+      <div class="slots-grid" *ngIf="slots().length > 0; else noSlots">
+        <div 
+          *ngFor="let slot of slots()" 
+          class="slot-card"
+          [class]="getAvailabilityClass(slot)"
+          (click)="selectSlot(slot)">
+          <div class="slot-header">
+            <h3>{{ slot.title }}</h3>
+            <span class="availability-badge" [class]="getAvailabilityClass(slot)">
+              {{ slot.isAvailable ? slot.availableSpots + ' spots left' : 'Full' }}
+            </span>
+          </div>
+          <div class="slot-body">
+            <p class="slot-description" *ngIf="slot.description">{{ slot.description }}</p>
+            <div class="slot-details">
+              <div class="detail-item">
+                <span class="icon">📅</span>
+                <span>{{ formatDateTime(slot.dateTime) }}</span>
+              </div>
+              <div class="detail-item" *ngIf="slot.location">
+                <span class="icon">📍</span>
+                <span>{{ slot.location }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="icon">👥</span>
+                <span>Capacity: {{ slot.capacity }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="slot-footer">
+            <button 
+              *ngIf="!isUserRegistered(slot) && slot.isAvailable"
+              class="register-button"
+              (click)="registerForSlot(slot); $event.stopPropagation()">
+              Register Now
+            </button>
+            <button 
+              *ngIf="isUserRegistered(slot)"
+              class="cancel-button"
+              (click)="cancelRegistration(slot.id); $event.stopPropagation()">
+              Cancel Registration
+            </button>
+            <span *ngIf="isUserRegistered(slot)" class="registered-badge">✓ Registered</span>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noSlots>
+        <div class="empty-state">
+          <p>No queue slots available at the moment.</p>
+          <p *ngIf="!isMonitoring()">Start monitoring to get notified when new slots appear.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Slot Details Modal -->
+  <div class="modal-overlay" *ngIf="selectedSlot()" (click)="closeSlotDetails()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="close-button" (click)="closeSlotDetails()">✕</button>
+      <h2>{{ selectedSlot()?.title }}</h2>
+      <div class="modal-body">
+        <p *ngIf="selectedSlot()?.description">{{ selectedSlot()?.description }}</p>
+        <div class="detail-item">
+          <strong>Date & Time:</strong>
+          <span>{{ formatDateTime(selectedSlot()!.dateTime) }}</span>
+        </div>
+        <div class="detail-item" *ngIf="selectedSlot()?.location">
+          <strong>Location:</strong>
+          <span>{{ selectedSlot()?.location }}</span>
+        </div>
+        <div class="detail-item">
+          <strong>Available Spots:</strong>
+          <span>{{ selectedSlot()?.availableSpots }} / {{ selectedSlot()?.capacity }}</span>
+        </div>
+        <div class="detail-item">
+          <strong>Status:</strong>
+          <span [class]="getAvailabilityClass(selectedSlot()!)">
+            {{ selectedSlot()?.isAvailable ? 'Available' : 'Full' }}
+          </span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button 
+          *ngIf="!isUserRegistered(selectedSlot()!) && selectedSlot()?.isAvailable"
+          class="register-button"
+          (click)="registerForSlot(selectedSlot()!)">
+          Register Now
+        </button>
+        <button 
+          *ngIf="isUserRegistered(selectedSlot()!)"
+          class="cancel-button"
+          (click)="cancelRegistration(selectedSlot()!.id)">
+          Cancel Registration
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
