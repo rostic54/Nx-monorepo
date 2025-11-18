@@ -1,7 +1,11 @@
 <!-- <ul class="remote-menu">
   <li><a routerLink="/">Home</a></li>
 </ul> -->
-<div class="header content-wrap flex align-center end">
+<div class="header content-wrap flex align-center space-between">
+  <nav class="navigation">
+    <a routerLink="/" class="nav-link">Calendar</a>
+    <a routerLink="/queue" class="nav-link">Queue Registration</a>
+  </nav>
   <lib-theme-toggle></lib-theme-toggle>
 </div>
 <router-outlet></router-outlet>

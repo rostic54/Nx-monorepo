@@ -1,0 +1,423 @@
+.queue-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.queue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.queue-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.header-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.monitor-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.monitor-button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+.monitor-button.active {
+  background-color: #f44336;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.notifications-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
+  background-color: #fff3cd;
+  border-radius: 8px;
+  border: 1px solid #ffc107;
+}
+
+.notifications-badge .badge {
+  background-color: #ff5722;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 8px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.notifications-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+}
+
+.notifications-section h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notification-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.notification-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.notification-item.unread {
+  border-left-color: #2196f3;
+  background-color: #e3f2fd;
+}
+
+.notification-content p {
+  margin: 0 0 5px 0;
+  font-weight: 500;
+}
+
+.notification-content small {
+  color: #666;
+}
+
+.notification-indicator {
+  color: #2196f3;
+  font-size: 1.5rem;
+}
+
+.slots-section h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.info-message {
+  background-color: #e8f5e9;
+  border-left: 4px solid #4caf50;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.info-message p {
+  margin: 0;
+  color: #2e7d32;
+}
+
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.slot-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.slot-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.slot-card.available {
+  border-color: #4caf50;
+}
+
+.slot-card.limited {
+  border-color: #ff9800;
+}
+
+.slot-card.unavailable {
+  border-color: #9e9e9e;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.slot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.slot-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #333;
+  flex: 1;
+}
+
+.availability-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.availability-badge.available {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.availability-badge.limited {
+  background-color: #ffe0b2;
+  color: #e65100;
+}
+
+.availability-badge.unavailable {
+  background-color: #e0e0e0;
+  color: #757575;
+}
+
+.slot-body {
+  margin-bottom: 15px;
+}
+
+.slot-description {
+  color: #666;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.slot-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #555;
+}
+
+.detail-item .icon {
+  font-size: 1.1rem;
+}
+
+.slot-footer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.register-button {
+  flex: 1;
+  padding: 10px 20px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #1976d2;
+  transform: scale(1.05);
+}
+
+.cancel-button {
+  flex: 1;
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+}
+
+.registered-badge {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  margin: 10px 0;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.close-button:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.modal-body {
+  margin-bottom: 20px;
+}
+
+.modal-body .detail-item {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.modal-body .detail-item strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .queue-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .slots-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    padding: 20px;
+  }
+}

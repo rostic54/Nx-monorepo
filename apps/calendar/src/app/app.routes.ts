@@ -6,6 +6,7 @@ import {
 import { Routes } from '@angular/router';
 import { AgendaComponent } from '@angular-monorepo/agenda';
 import { AuthComponent, SignInComponent, SignUpComponent } from '@angular-monorepo/auth';
+import { QueueComponent } from '@angular-monorepo/queue';
 import { currentDateInitResolver } from './current-date-init.resolver';
 import { AuthGuard } from '@angular-monorepo/auth-guard';
 
@@ -20,6 +21,11 @@ export const appRoutes: Routes = [
     pathMatch: 'full',
     canActivate: [AuthGuard],
     component: AgendaComponent,
+  },
+  {
+    path: 'queue',
+    canActivate: [AuthGuard],
+    component: QueueComponent,
   },
   {
     path: 'auth',
