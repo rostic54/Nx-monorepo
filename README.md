@@ -23,6 +23,38 @@ It took about 9 hours to complete from the scratch.
 3. Withdrawing result alternates with 'Technical Error"
 
 
+CALENDAR - PROJECT DESCRIPTION:
+
+The calendar application provides scheduling and appointment management features, including:
+
+1. Calendar view with agenda and day details
+2. **Electronic Queue Registration System** - A new feature for managing appointment slots:
+   - View available queue slots with real-time information
+   - Register for available appointment slots
+   - Cancel existing registrations
+   - Automatic monitoring for new slots (polling every 30 seconds)
+   - Desktop notifications when new slots become available
+   - Persistent storage of registrations (localStorage)
+
+### Queue Registration Feature
+
+To access the queue registration system:
+
+1. Navigate to `/queue` route in the calendar app
+2. Start monitoring to automatically check for new slots
+3. Click on any available slot to view details
+4. Register for slots with one click
+5. Manage your registrations from the same interface
+
+**Key Features:**
+- 📋 List of all available queue slots
+- 🔄 Real-time monitoring for new slots
+- 📢 Notification system for new availability
+- ✅ One-click registration and cancellation
+- 💾 Persistent data across sessions
+- 📱 Responsive design for mobile and desktop
+
+
 ## Generate library 
 
 ```sh
